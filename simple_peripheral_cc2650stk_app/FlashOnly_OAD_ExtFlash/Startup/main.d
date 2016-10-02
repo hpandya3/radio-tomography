@@ -181,47 +181,7 @@ Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23
 Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/gpio.h
 Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/inc/hw_gpio.h
 Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/tidrivers_cc13xx_cc26xx_2_16_01_13/packages/ti/mw/display/Display.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/System.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Assert.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ISystemSupport.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IGateProvider.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_SupportProxy.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ISystemSupport.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_Module_GateProxy.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IInstance.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IGateProvider.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_SupportProxy.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_Module_GateProxy.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Task.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IInstance.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Task__prologue.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Error.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Assert.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Diags.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Log.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IHeap.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Queue.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/interfaces/ITaskSupport.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Error.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Clock.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/package/Task_SupportProxy.h
-Startup/main.obj: C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/interfaces/ITaskSupport.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Task__epilogue.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/package/Task_SupportProxy.h
-Startup/main.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/tidrivers_cc13xx_cc26xx_2_16_01_13/packages/ti/drivers/UART.h
-Startup/main.obj: C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include/stddef.h
-Startup/main.obj: C:/ti/simplelink/ble_sdk_2_02_00_31/src/target/Board.h
+Startup/main.obj: F:/Documents/Thesis/sBLE_UART/simple_UART.h
 
 C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/simple_peripheral/cc26xx/app/main.c: 
 C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Error.h: 
@@ -404,44 +364,4 @@ C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/inc/hw_c
 C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/gpio.h: 
 C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/inc/hw_gpio.h: 
 C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/tidrivers_cc13xx_cc26xx_2_16_01_13/packages/ti/mw/display/Display.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/System.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Assert.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ISystemSupport.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IGateProvider.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_SupportProxy.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/ISystemSupport.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_Module_GateProxy.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IInstance.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IGateProvider.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_SupportProxy.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/package/System_Module_GateProxy.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Task.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IInstance.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Task__prologue.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Error.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Assert.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Diags.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Log.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IHeap.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Queue.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/interfaces/ITaskSupport.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Error.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/IModule.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Clock.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
-C:/ti/xdctools_3_32_00_06_core/packages/xdc/runtime/Types.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/interfaces/ITaskSupport.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/Task__epilogue.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/bios_6_45_02_31/packages/ti/sysbios/knl/package/Task_SupportProxy.h: 
-C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/tidrivers_cc13xx_cc26xx_2_16_01_13/packages/ti/drivers/UART.h: 
-C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include/stddef.h: 
-C:/ti/simplelink/ble_sdk_2_02_00_31/src/target/Board.h: 
+F:/Documents/Thesis/sBLE_UART/simple_UART.h: 

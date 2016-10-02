@@ -82,6 +82,16 @@
 			<locationURI>SRC_EX/common/cc26xx/rcosc/rcosc_calibration.h</locationURI>
 		</link>
 		<link>
+			<name>Application/simple_UART.c</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/sBLE_UART/simple_UART.c</locationURI>
+		</link>
+		<link>
+			<name>Application/simple_UART.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/sBLE_UART/simple_UART.h</locationURI>
+		</link>
+		<link>
 			<name>Application/simple_peripheral.c</name>
 			<type>1</type>
 			<locationURI>SRC_EX/examples/simple_peripheral/cc26xx/app/simple_peripheral.c</locationURI>
