@@ -219,6 +219,7 @@ Application/simple_peripheral.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/product
 Application/simple_peripheral.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/rom.h
 Application/simple_peripheral.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/gpio.h
 Application/simple_peripheral.obj: C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/inc/hw_gpio.h
+Application/simple_peripheral.obj: F:/Documents/Thesis/sBLE_UART/simple_UART.h
 Application/simple_peripheral.obj: C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/simple_peripheral/cc26xx/app/simple_peripheral.h
 
 C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/simple_peripheral/cc26xx/app/simple_peripheral.c: 
@@ -440,4 +441,5 @@ C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/inc/hw_c
 C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/rom.h: 
 C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/gpio.h: 
 C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/inc/hw_gpio.h: 
+F:/Documents/Thesis/sBLE_UART/simple_UART.h: 
 C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/simple_peripheral/cc26xx/app/simple_peripheral.h: 

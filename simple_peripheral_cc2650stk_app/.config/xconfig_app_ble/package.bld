@@ -41,7 +41,7 @@ else {
 
 var thisObj = {
     cfg:        'C:/ti/simplelink/ble_sdk_2_02_00_31/examples/cc2650stk/simple_peripheral/ccs/config/app_ble.cfg',
-    outputPath: 'C:/ti/simplelink/ble_sdk_2_02_00_31/examples/cc2650stk/simple_peripheral/ccs/app/.config/xconfig_app_ble',
+    outputPath: 'F:/Documents/Thesis/simple_peripheral_cc2650stk_app/.config/xconfig_app_ble',
     exeName:    'app_ble' + suffix,
     exeIntName: 'app_ble' + suffix.replace('.', '_'),
     targ:       targ,
