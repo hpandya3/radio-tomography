@@ -1,0 +1,1 @@
+"./Application/baseloaderentry_ti.obj" "./Application/bim_main.obj" "./Application/bls_bsp.obj" "./Application/ccfg_app_ble.obj" "./Application/startup_ccs.obj" "./ExternalFlash/ext_flash.obj" "./SPI/bsp_spi.obj" "C:/ti/simplelink/ble_sdk_2_02_00_31/src/common/cc26xx/ccs/cc26xx_bim_ext_flash.cmd" -llibc.a -ldriverlib.lib 

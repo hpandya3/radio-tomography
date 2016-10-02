@@ -1,0 +1,443 @@
+******************************************************************************
+                  TI ARM Linker PC v16.6.0                     
+******************************************************************************
+>> Linked Sun Oct 02 14:22:48 2016
+
+OUTPUT FILE NAME:   <bim_extflash.out>
+ENTRY POINT SYMBOL: "_c_int00"  address: 00000ea9
+
+
+MEMORY CONFIGURATION
+
+         name            origin    length      used     unused   attr    fill
+----------------------  --------  ---------  --------  --------  ----  --------
+  FLASH_PAGE0           00000000   00001000  00000fac  00000054  R  X
+  FLASH_PAGE31          0001f000   00001000  000008ec  00000714  R  X
+  SRAM                  20000000   00002cff  00001130  00001bcf  RW X
+
+
+SEGMENT ALLOCATION MAP
+
+run origin  load origin   length   init length attrs members
+----------  ----------- ---------- ----------- ----- -------
+00000000    00000000    00000fb0   00000fb0    r-x
+  00000000    00000000    000000c8   000000c8    r-- .intvecs
+  000000c8    000000c8    00000b4e   00000b4e    r-x output_DRIVERS
+  00000c18    00000c18    00000330   00000330    r-x .text
+  00000f48    00000f48    0000002e   0000002e    r-- .const
+  00000f78    00000f78    00000038   00000038    r-- .cinit
+0001f000    0001f000    00000894   00000894    r-x
+  0001f000    0001f000    00000018   00000018    r-x LoaderEntry
+  0001f018    0001f018    0000087c   0000087c    r-x output_APP
+0001ffa8    0001ffa8    00000058   00000058    r--
+  0001ffa8    0001ffa8    00000058   00000058    r-- .ccfg
+20000000    20000000    00001030   00000000    rw-
+  20000000    20000000    00001014   00000000    rw- .bss
+  20001014    20001014    0000001c   00000000    rw- .data
+20002bfc    20002bfc    00000100   00000000    rw-
+  20002bfc    20002bfc    00000100   00000000    rw- .stack
+
+
+SECTION ALLOCATION MAP
+
+ output                                  attributes/
+section   page    origin      length       input sections
+--------  ----  ----------  ----------   ----------------
+.intvecs   0    00000000    000000c8     
+                  00000000    000000c8     startup_ccs.obj (.intvecs)
+
+output_DRIVERS 
+*          0    000000c8    00000b4e     
+                  000000c8    000000d4     bsp_spi.obj (.text:bspSpiOpen)
+                  0000019c    00000058     bsp_spi.obj (.text:bspSpiClose)
+                  000001f4    00000054     bsp_spi.obj (.text:bspSpiRead)
+                  00000248    00000048     bsp_spi.obj (.text:bspSpiWrite)
+                  00000290    0000001c     bsp_spi.obj (.text:PRCMLoadGet)
+                  000002ac    0000001c     bsp_spi.obj (.text:bspSpiFlush)
+                  000002c8    00000018     bsp_spi.obj (.text:SSIIntDisable)
+                  000002e0    00000016     bsp_spi.obj (.text:SSIEnable)
+                  000002f6    00000012     bsp_spi.obj (.text:SSIIntClear)
+                  00000308    0000000c     bsp_spi.obj (.text:PRCMLoadSet)
+                  00000314    000003d0     driverlib.lib : setup.obj (.text:HapiTrimDeviceShutDown)
+                  000006e4    000000a0                   : setup.obj (.text:trimDevice)
+                  00000784    00000070                   : chipinfo.obj (.text:ChipInfo_GetHwRevision)
+                  000007f4    0000006c                   : setup.obj (.text:GetTrimForAmpcompCtrl)
+                  00000860    00000064                   : setup.obj (.text:GetTrimForAnabypassValue1)
+                  000008c4    00000050                   : setup.obj (.text:SetupCacheModeAccordingToCcfgSetting)
+                  00000914    0000004c                   : osc.obj (.text:NOROM_OSCClockSourceSet)
+                  00000960    00000048                   : chipinfo.obj (.text:ChipInfo_GetChipFamily)
+                  000009a8    00000048                   : ddi.obj (.text:NOROM_DDI16BitfieldWrite)
+                  000009f0    00000040                   : ddi.obj (.text:NOROM_DDI16BitfieldRead)
+                  00000a30    00000030                   : setup.obj (.text:SetAonRtcSubSecInc)
+                  00000a60    00000024                   : setup.obj (.text:GetTrimForRadcExtCfg)
+                  00000a84    00000020                   : setup.obj (.text:GetTrimForXoscHfCtl)
+                  00000aa4    0000001c                   : setup.obj (.text:GetTrimForAmpcompTh2)
+                  00000ac0    0000001c                   : flash.obj (.text:NOROM_FlashProgram)
+                  00000adc    0000001c                   : flash.obj (.text:NOROM_FlashSectorErase)
+                  00000af8    0000001c                   : osc.obj (.text:NOROM_OSCClockSourceGet)
+                  00000b14    00000018                   : setup.obj (.text:GetTrimForAdcShModeEn)
+                  00000b2c    00000018                   : setup.obj (.text:GetTrimForAdcShVbufEn)
+                  00000b44    00000018                   : setup.obj (.text:GetTrimForAmpcompTh1)
+                  00000b5c    00000018                   : setup.obj (.text:GetTrimForDblrLoopFilterResetVoltage)
+                  00000b74    00000018                   : setup.obj (.text:GetTrimForRcOscLfIBiasTrim)
+                  00000b8c    00000018                   : setup.obj (.text:GetTrimForRcOscLfRtuneCtuneTrim)
+                  00000ba4    00000018                   : setup.obj (.text:GetTrimForXoscLfRegulatorAndCmirrwrRatio)
+                  00000bbc    00000014                   : chipinfo.obj (.text:ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated)
+                  00000bd0    00000010                   : setup.obj (.text:GetTrimForXoscHfFastStart)
+                  00000be0    00000010                   : setup.obj (.text:GetTrimForXoscHfIbiastherm)
+                  00000bf0    0000000e                   : setup.obj (.text:SignExtendVddrTrimValue)
+                  00000bfe    0000000c                   : cpu.obj (.text:NOROM_CPUcpsid)
+                  00000c0a    0000000c                   : cpu.obj (.text:NOROM_CPUcpsie)
+
+.text      0    00000c18    00000330     
+                  00000c18    0000009c     rtsv7M3_T_le_eabi.lib : memcpy_t2.obj (.text)
+                  00000cb4    0000007a                           : memset_t2.obj (.text)
+                  00000d2e    00000002     startup_ccs.obj (.text:FaultISR)
+                  00000d30    00000070     rtsv7M3_T_le_eabi.lib : autoinit.obj (.text)
+                  00000da0    00000066                           : copy_decompress_lzss.obj (.text:decompress:lzss)
+                  00000e06    00000002     startup_ccs.obj (.text:IntDefaultHandler)
+                  00000e08    00000054     rtsv7M3_T_le_eabi.lib : exit.obj (.text)
+                  00000e5c    0000004c                           : cpy_tbl.obj (.text)
+                  00000ea8    00000040                           : boot.obj (.text)
+                  00000ee8    00000018                           : args_main.obj (.text)
+                  00000f00    00000014                           : _lock.obj (.text)
+                  00000f14    00000010     startup_ccs.obj (.text:ResetISR)
+                  00000f24    0000000e     rtsv7M3_T_le_eabi.lib : copy_decompress_none.obj (.text:decompress:none)
+                  00000f32    0000000c                           : copy_zero_init.obj (.text:decompress:ZI)
+                  00000f3e    00000004                           : pre_init.obj (.text)
+                  00000f42    00000002     startup_ccs.obj (.text:NmiSR)
+                  00000f44    00000002     rtsv7M3_T_le_eabi.lib : mpu_init.obj (.text)
+                  00000f46    00000002                           : startup.obj (.text)
+
+.const     0    00000f48    0000002e     
+                  00000f48    00000028     ext_flash.obj (.const:flashInfo)
+                  00000f70    00000004     ext_flash.obj (.const:.string:$P$T0$1)
+                  00000f74    00000001     ext_flash.obj (.const:.string:$P$T1$2)
+                  00000f75    00000001     ext_flash.obj (.const:.string:$P$T2$3)
+
+.cinit     0    00000f78    00000038     
+                  00000f78    00000011     (.cinit..data.load) [load image, compression = lzss]
+                  00000f89    00000003     --HOLE-- [fill = 0]
+                  00000f8c    0000000c     (__TI_handler_table)
+                  00000f98    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00000fa0    00000010     (__TI_cinit_table)
+
+LoaderEntry 
+*          0    0001f000    00000018     
+                  0001f000    00000018     baseloaderentry_ti.obj (LoaderEntry:CODE:ROOT)
+
+output_APP 
+*          0    0001f018    0000087c     
+                  0001f018    00000130     bim_main.obj (.text:crcCalc)
+                  0001f148    000000d8     bim_main.obj (.text:Bim_checkImages)
+                  0001f220    000000d2     bim_main.obj (.text:Bim_copyImage)
+                  0001f2f2    0000008a     bim_main.obj (.text:crc16)
+                  0001f37c    00000040     bim_main.obj (.text:Bim_safeStart)
+                  0001f3bc    00000030     bim_main.obj (.text:crcCheck)
+                  0001f3ec    0000001c     bim_main.obj (.text:Bim_intErasePage)
+                  0001f408    0000001c     bim_main.obj (.text:Bim_intWriteWord)
+                  0001f424    00000014     bim_main.obj (.text:Bim_extReadBuf)
+                  0001f438    00000014     bim_main.obj (.text:Bim_extWriteBuf)
+                  0001f44c    00000014     bim_main.obj (.text:WatchdogReloadSet)
+                  0001f460    00000014     bim_main.obj (.text:main)
+                  0001f474    0000000c     bim_main.obj (.text:WatchdogEnable)
+                  0001f480    0000000c     bim_main.obj (.text:WatchdogResetEnable)
+                  0001f48c    0000001e     bls_bsp.obj (.text:BLS_read)
+                  0001f4aa    0000001e     bls_bsp.obj (.text:BLS_write)
+                  0001f4c8    00000012     bls_bsp.obj (.text:BLS_init)
+                  0001f4da    00000008     bls_bsp.obj (.text:BLS_close)
+                  0001f4e2    00000002     --HOLE-- [fill = 0]
+                  0001f4e4    000000ba     ext_flash.obj (.text:extFlashWrite)
+                  0001f59e    00000074     ext_flash.obj (.text:extFlashRead)
+                  0001f612    00000002     --HOLE-- [fill = 0]
+                  0001f614    00000068     ext_flash.obj (.text:extFlashVerifyPart)
+                  0001f67c    00000054     ext_flash.obj (.text:extFlashPowerStandby)
+                  0001f6d0    0000004c     ext_flash.obj (.text:extFlashWaitReady)
+                  0001f71c    00000048     ext_flash.obj (.text:extFlashOpen)
+                  0001f764    00000048     ext_flash.obj (.text:extFlashReadInfo)
+                  0001f7ac    00000032     ext_flash.obj (.text:extFlashWaitPowerDown)
+                  0001f7de    00000002     --HOLE-- [fill = 0]
+                  0001f7e0    00000030     ext_flash.obj (.text:extFlashWriteEnable)
+                  0001f810    0000002e     ext_flash.obj (.text:extFlashPowerDown)
+                  0001f83e    00000002     --HOLE-- [fill = 0]
+                  0001f840    00000018     ext_flash.obj (.text:GPIO_clearDio)
+                  0001f858    00000018     ext_flash.obj (.text:GPIO_setDio)
+                  0001f870    00000010     ext_flash.obj (.text:extFlashClose)
+                  0001f880    0000000a     ext_flash.obj (.text:extFlashDeselect)
+                  0001f88a    0000000a     ext_flash.obj (.text:extFlashSelect)
+
+.init_array 
+*          0    00000000    00000000     UNINITIALIZED
+
+.ccfg      0    0001ffa8    00000058     
+                  0001ffa8    00000058     ccfg_app_ble.obj (.ccfg:retain)
+
+.bss       0    20000000    00001014     UNINITIALIZED
+                  20000000    00001000     (.common:pgBuf)
+                  20001000    00000010     (.common:imgInfo)
+                  20001010    00000004     ext_flash.obj (.bss:infoBuf)
+
+.data      0    20001014    0000001c     UNINITIALIZED
+                  20001014    0000000c     rtsv7M3_T_le_eabi.lib : exit.obj (.data:$O1$$)
+                  20001020    00000008                           : _lock.obj (.data:$O1$$)
+                  20001028    00000004     ext_flash.obj (.data)
+                  2000102c    00000004     rtsv7M3_T_le_eabi.lib : stkdepth_vars.obj (.data)
+
+.stack     0    20002bfc    00000100     UNINITIALIZED
+                  20002bfc    00000100     --HOLE--
+
+MODULE SUMMARY
+
+       Module                     code   ro data   rw data
+       ------                     ----   -------   -------
+    .\Application\
+       bim_main.obj               1140   0         4112   
+       startup_ccs.obj            22     200       0      
+       ccfg_app_ble.obj           0      88        0      
+       bls_bsp.obj                86     0         0      
+       baseloaderentry_ti.obj     24     0         0      
+    +--+--------------------------+------+---------+---------+
+       Total:                     1272   288       4112   
+                                                          
+    .\ExternalFlash\
+       ext_flash.obj              938    46        8      
+    +--+--------------------------+------+---------+---------+
+       Total:                     938    46        8      
+                                                          
+    .\SPI\
+       bsp_spi.obj                588    0         0      
+    +--+--------------------------+------+---------+---------+
+       Total:                     588    0         0      
+                                                          
+    C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/driverlib/bin/ccs/driverlib.lib
+       setup.obj                  1782   0         0      
+       chipinfo.obj               204    0         0      
+       ddi.obj                    136    0         0      
+       osc.obj                    104    0         0      
+       flash.obj                  56     0         0      
+       cpu.obj                    24     0         0      
+    +--+--------------------------+------+---------+---------+
+       Total:                     2306   0         0      
+                                                          
+    C:\ti\ccsv6\tools\compiler\ti-cgt-arm_16.6.0.STS\lib\rtsv7M3_T_le_eabi.lib
+       memcpy_t2.obj              156    0         0      
+       memset_t2.obj              122    0         0      
+       autoinit.obj               112    0         0      
+       copy_decompress_lzss.obj   102    0         0      
+       exit.obj                   84     0         12     
+       cpy_tbl.obj                76     0         0      
+       boot.obj                   64     0         0      
+       _lock.obj                  20     0         8      
+       args_main.obj              24     0         0      
+       copy_decompress_none.obj   14     0         0      
+       copy_zero_init.obj         12     0         0      
+       pre_init.obj               4      0         0      
+       stkdepth_vars.obj          0      0         4      
+       mpu_init.obj               2      0         0      
+       startup.obj                2      0         0      
+    +--+--------------------------+------+---------+---------+
+       Total:                     794    0         24     
+                                                          
+       Stack:                     0      0         256    
+       Linker Generated:          0      53        0      
+    +--+--------------------------+------+---------+---------+
+       Grand Total:               5898   387       4400   
+
+
+LINKER GENERATED COPY TABLES
+
+__TI_cinit_table @ 00000fa0 records: 2, size/record: 8, table size: 16
+	.data: load addr=00000f78, load size=00000011 bytes, run addr=20001014, run size=0000001c bytes, compression=lzss
+	.bss: load addr=00000f98, load size=00000008 bytes, run addr=20000000, run size=00001014 bytes, compression=zero_init
+
+
+LINKER GENERATED HANDLER TABLE
+
+__TI_handler_table @ 00000f8c records: 3, size/record: 4, table size: 12
+	index: 0, handler: __TI_decompress_lzss
+	index: 1, handler: __TI_decompress_none
+	index: 2, handler: __TI_zero_init
+
+
+GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name 
+
+address   name                                                  
+-------   ----                                                  
+0001f4db  BLS_close                                             
+0001f4c9  BLS_init                                              
+0001f48d  BLS_read                                              
+0001f4ab  BLS_write                                             
+0001f001  BaseLoader_start                                      
+0001f149  Bim_checkImages                                       
+0001f37d  Bim_safeStart                                         
+00000e09  C$$EXIT                                               
+00000961  ChipInfo_GetChipFamily                                
+00000785  ChipInfo_GetHwRevision                                
+00000bff  NOROM_CPUcpsid                                        
+00000c0b  NOROM_CPUcpsie                                        
+000009f1  NOROM_DDI16BitfieldRead                               
+000009a9  NOROM_DDI16BitfieldWrite                              
+00000ac1  NOROM_FlashProgram                                    
+00000add  NOROM_FlashSectorErase                                
+00000af9  NOROM_OSCClockSourceGet                               
+00000915  NOROM_OSCClockSourceSet                               
+00000f15  ResetISR                                              
+UNDEFED   SHT$$INIT_ARRAY$$Base                                 
+UNDEFED   SHT$$INIT_ARRAY$$Limit                                
+00000bf1  SignExtendVddrTrimValue                               
+00000bbd  ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated
+20002cfc  __STACK_END                                           
+00000100  __STACK_SIZE                                          
+20002cfc  __STACK_TOP                                           
+00000fa0  __TI_CINIT_Base                                       
+00000fb0  __TI_CINIT_Limit                                      
+00000f8c  __TI_Handler_Table_Base                               
+00000f98  __TI_Handler_Table_Limit                              
+00000d31  __TI_auto_init                                        
+20001014  __TI_cleanup_ptr                                      
+00000da1  __TI_decompress_lzss                                  
+00000f25  __TI_decompress_none                                  
+20001018  __TI_dtors_ptr                                        
+2000101c  __TI_enable_exit_profile_output                       
+ffffffff  __TI_pprof_out_hndl                                   
+ffffffff  __TI_prof_data_size                                   
+ffffffff  __TI_prof_data_start                                  
+00000000  __TI_static_base__                                    
+00000f33  __TI_zero_init                                        
+00000cb5  __aeabi_memclr                                        
+00000cb5  __aeabi_memclr4                                       
+00000cb5  __aeabi_memclr8                                       
+00000c19  __aeabi_memcpy                                        
+00000c19  __aeabi_memcpy4                                       
+00000c19  __aeabi_memcpy8                                       
+00000cb7  __aeabi_memset                                        
+00000cb7  __aeabi_memset4                                       
+00000cb7  __aeabi_memset8                                       
+ffffffff  __binit__                                             
+ffffffff  __c_args__                                            
+0001ffa8  __ccfg                                                
+00000f45  __mpu_init                                            
+20002bfc  __stack                                               
+00000ee9  _args_main                                            
+00000ea9  _c_int00                                              
+20001020  _lock                                                 
+00000f0f  _nop                                                  
+00000f07  _register_lock                                        
+00000f01  _register_unlock                                      
+00000f47  _system_post_cinit                                    
+00000f3f  _system_pre_init                                      
+20001024  _unlock                                               
+00000e0d  abort                                                 
+ffffffff  binit                                                 
+0000019d  bspSpiClose                                           
+000002ad  bspSpiFlush                                           
+000000c9  bspSpiOpen                                            
+000001f5  bspSpiRead                                            
+00000249  bspSpiWrite                                           
+00000e5d  copy_in                                               
+00000e15  exit                                                  
+0001f871  extFlashClose                                         
+0001f71d  extFlashOpen                                          
+0001f59f  extFlashRead                                          
+0001f4e5  extFlashWrite                                         
+00000000  g_pfnVectors                                          
+20001000  imgInfo                                               
+0001f461  main                                                  
+2000102c  main_func_sp                                          
+00000c19  memcpy                                                
+00000cbd  memset                                                
+20000000  pgBuf                                                 
+000006e5  trimDevice                                            
+
+
+GLOBAL SYMBOLS: SORTED BY Symbol Address 
+
+address   name                                                  
+-------   ----                                                  
+00000000  __TI_static_base__                                    
+00000000  g_pfnVectors                                          
+000000c9  bspSpiOpen                                            
+00000100  __STACK_SIZE                                          
+0000019d  bspSpiClose                                           
+000001f5  bspSpiRead                                            
+00000249  bspSpiWrite                                           
+000002ad  bspSpiFlush                                           
+000006e5  trimDevice                                            
+00000785  ChipInfo_GetHwRevision                                
+00000915  NOROM_OSCClockSourceSet                               
+00000961  ChipInfo_GetChipFamily                                
+000009a9  NOROM_DDI16BitfieldWrite                              
+000009f1  NOROM_DDI16BitfieldRead                               
+00000ac1  NOROM_FlashProgram                                    
+00000add  NOROM_FlashSectorErase                                
+00000af9  NOROM_OSCClockSourceGet                               
+00000bbd  ThisCodeIsBuiltForCC26xxHwRev22AndLater_HaltIfViolated
+00000bf1  SignExtendVddrTrimValue                               
+00000bff  NOROM_CPUcpsid                                        
+00000c0b  NOROM_CPUcpsie                                        
+00000c19  __aeabi_memcpy                                        
+00000c19  __aeabi_memcpy4                                       
+00000c19  __aeabi_memcpy8                                       
+00000c19  memcpy                                                
+00000cb5  __aeabi_memclr                                        
+00000cb5  __aeabi_memclr4                                       
+00000cb5  __aeabi_memclr8                                       
+00000cb7  __aeabi_memset                                        
+00000cb7  __aeabi_memset4                                       
+00000cb7  __aeabi_memset8                                       
+00000cbd  memset                                                
+00000d31  __TI_auto_init                                        
+00000da1  __TI_decompress_lzss                                  
+00000e09  C$$EXIT                                               
+00000e0d  abort                                                 
+00000e15  exit                                                  
+00000e5d  copy_in                                               
+00000ea9  _c_int00                                              
+00000ee9  _args_main                                            
+00000f01  _register_unlock                                      
+00000f07  _register_lock                                        
+00000f0f  _nop                                                  
+00000f15  ResetISR                                              
+00000f25  __TI_decompress_none                                  
+00000f33  __TI_zero_init                                        
+00000f3f  _system_pre_init                                      
+00000f45  __mpu_init                                            
+00000f47  _system_post_cinit                                    
+00000f8c  __TI_Handler_Table_Base                               
+00000f98  __TI_Handler_Table_Limit                              
+00000fa0  __TI_CINIT_Base                                       
+00000fb0  __TI_CINIT_Limit                                      
+0001f001  BaseLoader_start                                      
+0001f149  Bim_checkImages                                       
+0001f37d  Bim_safeStart                                         
+0001f461  main                                                  
+0001f48d  BLS_read                                              
+0001f4ab  BLS_write                                             
+0001f4c9  BLS_init                                              
+0001f4db  BLS_close                                             
+0001f4e5  extFlashWrite                                         
+0001f59f  extFlashRead                                          
+0001f71d  extFlashOpen                                          
+0001f871  extFlashClose                                         
+0001ffa8  __ccfg                                                
+20000000  pgBuf                                                 
+20001000  imgInfo                                               
+20001014  __TI_cleanup_ptr                                      
+20001018  __TI_dtors_ptr                                        
+2000101c  __TI_enable_exit_profile_output                       
+20001020  _lock                                                 
+20001024  _unlock                                               
+2000102c  main_func_sp                                          
+20002bfc  __stack                                               
+20002cfc  __STACK_END                                           
+20002cfc  __STACK_TOP                                           
+ffffffff  __TI_pprof_out_hndl                                   
+ffffffff  __TI_prof_data_size                                   
+ffffffff  __TI_prof_data_start                                  
+ffffffff  __binit__                                             
+ffffffff  __c_args__                                            
+ffffffff  binit                                                 
+UNDEFED   SHT$$INIT_ARRAY$$Base                                 
+UNDEFED   SHT$$INIT_ARRAY$$Limit                                
+
+[85 symbols]
