@@ -88,46 +88,68 @@ char *convert(unsigned int num, int base)
 void SU_printf(Char* printsr, ...) {
 	char *travel;
 	MsgObj msg;
-	unsigned int i;
+	int i;
+	char* s;
+	char* buf;
 	int count = 0;
+	memset(msg.printstr,0,sizeof(msg.printstr));
 
-	//Module 1: Initializing SU_printf's arguments
-//	va_list arg;
-//	va_start(arg, format);
+	// Module 1: Initializing SU_printf's arguments
+	va_list arg;
+	va_start(arg, printsr);
 
 	for(travel = printsr; *travel != '\0'; travel++)
 	{
-		msg.printstr[count] = *travel;
-		count++;
+		while(*travel != '%' && *travel != 0) {
+			msg.printstr[count] = *travel;
+			count++;
+			travel++;
+		}
 
-//		//Module 2: Fetching and executing arguments
-//		switch(*travel)
-//		{
-//			case 'c' : i = va_arg(arg,int);     //Fetch char argument
-//						final[count] = i;
-//						break;
-//
-//			case 'd' : i = va_arg(arg,int);         //Fetch Decimal/Integer argument
-//						if(i < 0)
-//						{
-//							i = -i;
-//							final[count] = '-';
-//						}
-//						puts(convert(i,10));
-//						break;
-//
-//			case 'o': i = va_arg(arg,unsigned int); //Fetch Octal representation
-//						puts(convert(i,8));
-//						break;
-//
-//			case 's': s = va_arg(arg,char *);       //Fetch string
-//						puts(s);
-//						break;
-//
-//			case 'x': i = va_arg(arg,unsigned int); //Fetch Hexadecimal representation
-//						puts(convert(i,16));
-//						break;
-//		}
+		if(*travel != 0) {
+			if(*travel == '%') {
+				travel++;
+			}
+			// Module 2: Fetching and executing arguments
+			switch(*travel)
+			{
+				case 'c' : i = va_arg(arg,int);     //Fetch char argument
+							msg.printstr[count] = i;
+							count++;
+							break;
+
+				case 'd' : i = va_arg(arg,int);         //Fetch Decimal/Integer argument
+							if(i < 0)
+							{
+								i = -i;
+								msg.printstr[count] = '-';
+								count++;
+							}
+							buf = convert(i,10);
+							strcat(msg.printstr, buf);
+							count += strlen(buf);
+							break;
+
+				case 'o': i = va_arg(arg,unsigned int); //Fetch Octal representation
+							buf = convert(i,8);
+							strcat(msg.printstr, buf);
+							count += strlen(buf);
+							break;
+
+				case 's': s = va_arg(arg,char *);       //Fetch string
+							strcat(msg.printstr, s);
+							count += strlen(s);
+							break;
+
+				case 'x': i = va_arg(arg,unsigned int); //Fetch Hexadecimal representation
+							buf = convert(i,8);
+							strcat(msg.printstr, buf);
+							count += strlen(buf);
+							break;
+			}
+		} else {
+			break;
+		}
 	}
 
 	//Module 3: Closing argument list to necessary clean-up
