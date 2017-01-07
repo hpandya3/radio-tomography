@@ -1,0 +1,14 @@
+{
+  "name": "3D-Tomography",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "Harsh Pandya <hpand3@gmail.com>",
+  "license": "None",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.5"
+  }
+}
