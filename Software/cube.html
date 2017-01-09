@@ -6,113 +6,189 @@
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<style>
 		body { margin: 0; }
-		canvas { width: 100%; height: 100%; background-color: white; }
+		canvas { width: 100%; height: 100%; background-color: white; overflow: hidden;}
 	</style>
 
 </head>
 
 <body>
 
-	<script type="text/javascript" src="./three.js"></script>
+	<script type="text/javascript" src="js/three.js"></script>
 	<script type="text/javascript" src="js/TrackballControls.js"></script>
+	<script type="text/javascript" src="js/numjs.min.js"></script>
 	<script>
-
 	// Dimensions
-	var dim = {x:3 , y:3 , z:3};
+	var dim = {x:10 , y:10 , z:10};
+	var scene,
+		renderer,
+		cubeGeo,
+		wireGeo,
+		wireMat,
+		cubeGroup,
+		wireGroup,
+		controls;
 
-	// Scene
-	var scene = new THREE.Scene();
+	init();
+	render();
 
-	// Camera
-	var camera = new THREE.PerspectiveCamera( 50, window.innerWidth/window.innerHeight, 0.1, 1000 );
+	function init() {
+		// Scene
+		scene = new THREE.Scene();
 
-	// Renderer
-	var renderer = new THREE.WebGLRenderer();
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	renderer.setClearColor (0xe8e8e8, 1);
-	document.body.appendChild( renderer.domElement );
+		// Camera
+		camera = new THREE.PerspectiveCamera( 65, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
-	// Init vars
-	var cubeGeo = new THREE.BoxGeometry( 1, 1, 1 );
-	var wireGeo = new THREE.EdgesGeometry( cubeGeo );
-	var wireMat = new THREE.LineBasicMaterial( { color: 0x000000 } );
+		// Controls
+		controls = new THREE.TrackballControls( camera );
+		controls.rotateSpeed = 10.0;
+		controls.zoomSpeed = 1.2;
+		controls.panSpeed = 0.8;
+		controls.noZoom = false;
+		controls.noPan = false;
+		controls.staticMoving = true;
+		controls.dynamicDampingFactor = 0.3;
 
-	// Mesh group
-	var cubeGroup = new THREE.Group();
-	var wireGroup = new THREE.Group();
+		// Renderer
+		renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setClearColor (0xe8e8e8, 1);
+		document.body.appendChild( renderer.domElement );
 
-	// Contains all the cubes
-	var superCube = new Array(new Array(new Array()));
-	var superCubeWire = new Array(new Array(new Array()));
+		// Init vars
+		cubeGeo = new THREE.CubeGeometry( 1, 1, 1 );
+		wireGeo = new THREE.EdgesGeometry( cubeGeo );
 
-	for(posx = 0; posx < dim["x"]; posx++) {
-		for(posy = 0; posy < dim["y"]; posy++) {
-			for(posz = 0; posz < dim["z"]; posz++) {
-				// Create objects
-				var cubeMat = new THREE.MeshBasicMaterial( { color: 
-					0xe00b0b, transparent:true, opacity:0.6 } );
-				var cube = new THREE.Mesh( cubeGeo, cubeMat );
-				var wireframe = new THREE.LineSegments( wireGeo, 
-					wireMat );
+		// Mesh group
+		cubeGroup = new THREE.Group();
+		wireGroup = new THREE.Group();
 
-				// Set cube position
-				cube.position.x = posx;
-				cube.position.y = posy;
-				cube.position.z = posz;
+		// Create cube structure depending on the dimensions
+		for(posx = 0; posx < dim["x"]; posx++) {
+			for(posy = 0; posy < dim["y"]; posy++) {
+				for(posz = 0; posz < dim["z"]; posz++) {
+					// Create objects
+					var cubeMat = new THREE.MeshBasicMaterial( { color: 
+						0xe00b0b, transparent:true, opacity:0.1 } );
+					var cube = new THREE.Mesh( cubeGeo, cubeMat );
+					var wireMat = new THREE.LineBasicMaterial( { color: 
+						0x000000, transparent:true, opacity:0.1 } );
+					var wireframe = new THREE.LineSegments( wireGeo, 
+						wireMat );
 
-				// Set wireframe position
-				wireframe.position.x = posx;
-				wireframe.position.y = posy;
-				wireframe.position.z = posz;
+					// Set cube position
+					cube.position.x = posx;
+					cube.position.y = posy;
+					cube.position.z = posz;
 
-				// Add to list
-				superCube[posx, posy, posz] = cube;
-				superCubeWire[posx, posy, posz] = wireframe;
-				
-				// Add to group
-				cubeGroup.add( cube );
-				wireGroup.add( wireframe );
+					// Set wireframe position
+					wireframe.position.x = posx;
+					wireframe.position.y = posy;
+					wireframe.position.z = posz;
+
+					// Add to group
+					cubeGroup.add( cube );
+					wireGroup.add( wireframe );
+				}
 			}
 		}
-	}
 
-	scene.add(cubeGroup);
-	scene.add(wireGroup);
+		// Add groups to the scene
+		scene.add(cubeGroup);
+		scene.add(wireGroup);
 
-	var setColor = function(cube, color) {
-		cube.material.color = new THREE.Color("hsl(" + color + ", 100%, 50%)");
+		// Set camera position
+		camera.position.z = 15;
+		camera.position.x = 15;
+		camera.position.y = 15;
+
+		// Setup listener
+		window.addEventListener( 'resize', onWindowResize, false );
+
+		// Test
+		updateColor(createRandData());
 	};
 
-	var percentToColor = function(percent, start, end) {
+	function setColor(cube, color) {
+		cube.material.color = new THREE.Color("hsl(" + color + ", 100%, 50%)");
+	}
+
+	function setOpacity(cube, op) {
+		cube.material.opacity = op;
+	};
+
+	function percentToColor(percent, start, end) {
 		var ratio = percent/100;
 		var scale = (end - start) * ratio;
 		var color = scale + start;
 		return color;
 	}
 
-	// Change color
-	for(num = 0; num < cubeGroup.children.length; num++) {
-		setColor(cubeGroup.children[num], percentToColor((num/27)*100,240,0));
+	function percentToOpacity(percent, start, end) {
+		var ratio = percent/100;
+		var scale = (end - start) * ratio;
+		var opacity = scale + start;
+		return opacity;
 	}
 
-	camera.position.z = 10;
+	function createRandData() {
+		data = nj.zeros([dim["x"], dim["y"], dim["z"]]);
+		console.log(data);
+		for(posx = 0; posx < dim["x"]; posx++) {
+			for(posy = 0; posy < dim["y"]; posy++) {
+				for(posz = 0; posz < dim["z"]; posz++) {
+					data.set(posx, posy, posz, getRandom()*20);
+				}
+			}
+		}
+		console.log(data.get(2,1,1));
+		return data;
+	}
 
-	var setColor = function(cube, color) {
-		cube.material.color = new THREE.Color(color);
-	};
+	function getRandom() {
+	  	return Math.random();
+	}
 
-	var render = function () {
+	function updateColor(data) {
+		//console.log(data[0][0].toString());
+		// Max value
+		var max = data.max();
+
+		// Change color
+		for(i = 0; i < cubeGroup.children.length; i++) {
+			var posx = cubeGroup.children[i].position.x;
+			var posy = cubeGroup.children[i].position.y;
+			var posz = cubeGroup.children[i].position.z;
+			var num = data.get(posx, posy, posz);
+			//console.log("num: ", num);
+			var percent = (num/max)*100;
+			//console.log("percent: ", percent)
+			var cubeColor = percentToColor(percent,240,0);
+			//console.log("cube color: ", cubeColor);
+			// 240 	blue
+			// 0 	red
+			var cubeOpacity = percentToOpacity(percent,0,1.0);
+			// 0 	Not visible (fully transparent)
+			// 1 	no transparency
+			var wireOpacity = percentToOpacity(percent,0.1,1.0);
+			// Set visual parameters
+			setColor(cubeGroup.children[i], cubeColor);
+			setOpacity(cubeGroup.children[i], cubeOpacity);
+			setOpacity(wireGroup.children[i], wireOpacity);
+		}
+	}
+
+	function render() {
 		requestAnimationFrame( render );
-
-		cubeGroup.rotation.x += 0.01;
-		cubeGroup.rotation.y += 0.01;
-		wireGroup.rotation.x += 0.01;
-		wireGroup.rotation.y += 0.01;
-
 		renderer.render(scene, camera);
+		controls.update();
 	};
 
-	render();
+	function onWindowResize() {
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+	}
+
 	</script>
 
 </body>
