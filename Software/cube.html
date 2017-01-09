@@ -14,7 +14,7 @@
 <body>
 
 	<script type="text/javascript" src="js/three.js"></script>
-	<script type="text/javascript" src="js/TrackballControls.js"></script>
+	<script type="text/javascript" src="js/OrbitControls.js"></script>
 	<script type="text/javascript" src="js/numjs.min.js"></script>
 	<script>
 	// Dimensions
@@ -39,14 +39,13 @@
 		camera = new THREE.PerspectiveCamera( 65, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
 		// Controls
-		controls = new THREE.TrackballControls( camera );
-		controls.rotateSpeed = 10.0;
+		controls = new THREE.OrbitControls( camera );
+		controls.rotateSpeed = 1.0;
 		controls.zoomSpeed = 1.2;
 		controls.panSpeed = 0.8;
-		controls.noZoom = false;
-		controls.noPan = false;
-		controls.staticMoving = true;
-		controls.dynamicDampingFactor = 0.3;
+		controls.target.set(dim["x"]/2, dim["y"]/2, dim["z"]/2);
+
+
 
 		// Renderer
 		renderer = new THREE.WebGLRenderer();
@@ -97,10 +96,10 @@
 		scene.add(wireGroup);
 
 		// Set camera position
-		camera.position.z = 15;
-		camera.position.x = 15;
-		camera.position.y = 15;
-
+		camera.position.x = dim["x"]*1.5;
+		camera.position.y = dim["y"]*1.5;
+		camera.position.z = dim["z"]*1.5;
+		
 		// Setup listener
 		window.addEventListener( 'resize', onWindowResize, false );
 
@@ -149,24 +148,24 @@
 	}
 
 	function updateColor(data) {
-		//console.log(data[0][0].toString());
 		// Max value
 		var max = data.max();
 
 		// Change color
 		for(i = 0; i < cubeGroup.children.length; i++) {
+			// Get cube position
 			var posx = cubeGroup.children[i].position.x;
 			var posy = cubeGroup.children[i].position.y;
 			var posz = cubeGroup.children[i].position.z;
+
+			// Get value from data
 			var num = data.get(posx, posy, posz);
-			//console.log("num: ", num);
+
 			var percent = (num/max)*100;
-			//console.log("percent: ", percent)
 			var cubeColor = percentToColor(percent,240,0);
-			//console.log("cube color: ", cubeColor);
 			// 240 	blue
 			// 0 	red
-			var cubeOpacity = percentToOpacity(percent,0,1.0);
+			var cubeOpacity = percentToOpacity(percent,0.05,1.0);
 			// 0 	Not visible (fully transparent)
 			// 1 	no transparency
 			var wireOpacity = percentToOpacity(percent,0.1,1.0);
