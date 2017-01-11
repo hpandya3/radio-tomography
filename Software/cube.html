@@ -1,12 +1,27 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-	<title>3D tomography</title>
+	<title>3D Radio Tomography</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<style>
-		body { margin: 0; }
-		canvas { width: 100%; height: 100%; background-color: white; overflow: hidden;}
+		html, body {
+		    width: 100%;
+		    height: 100%;
+		    margin: 0;
+		}
+		canvas { 
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;   /* Disable scrollbars */
+			z-index: -1;
+		}
 	</style>
 
 </head>
@@ -16,16 +31,15 @@
 	<script type="text/javascript" src="js/three.js"></script>
 	<script type="text/javascript" src="js/OrbitControls.js"></script>
 	<script type="text/javascript" src="js/numjs.min.js"></script>
+	<script type="text/javascript" src="js/VoxelTraversal.js"></script>
 	<script>
 	// Dimensions
 	var dim = {x:10 , y:10 , z:10};
 	var scene,
 		renderer,
-		cubeGeo,
-		wireGeo,
-		wireMat,
 		cubeGroup,
 		wireGroup,
+		voxelTrav,
 		controls;
 
 	init();
@@ -49,13 +63,16 @@
 
 		// Renderer
 		renderer = new THREE.WebGLRenderer();
+		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.setClearColor (0xe8e8e8, 1);
 		document.body.appendChild( renderer.domElement );
 
 		// Init vars
-		cubeGeo = new THREE.CubeGeometry( 1, 1, 1 );
-		wireGeo = new THREE.EdgesGeometry( cubeGeo );
+		var cubeGeo = new THREE.CubeGeometry( 1, 1, 1 );
+		var wireGeo = new THREE.EdgesGeometry( cubeGeo );
+		var wireMat = new THREE.LineBasicMaterial( { color: 
+						0x000000, transparent: true, opacity: 0.1 } );
 
 		// Mesh group
 		cubeGroup = new THREE.Group();
@@ -69,8 +86,6 @@
 					var cubeMat = new THREE.MeshBasicMaterial( { color: 
 						0xe00b0b, transparent:true, opacity:0.1 } );
 					var cube = new THREE.Mesh( cubeGeo, cubeMat );
-					var wireMat = new THREE.LineBasicMaterial( { color: 
-						0x000000, transparent:true, opacity:0.1 } );
 					var wireframe = new THREE.LineSegments( wireGeo, 
 						wireMat );
 
@@ -103,8 +118,16 @@
 		// Setup listener
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		// Test
-		updateColor(createRandData());
+		// Setup voxel traversal algorithm
+		voxelTrav = new VoxelTraversal(dim["x"], dim["y"], dim["z"]);
+		var from = nj.array([10,10,10]);
+		var to = nj.array([1,5,8]);
+		var voxels = voxelTrav.getVoxels(from, to);
+		var wMat = createWeightedMatrix(voxels);
+
+		/* 			Test 			*/
+		updateColor(wMat);
+		/* 			End test 		*/
 	};
 
 	function setColor(cube, color) {
@@ -129,9 +152,21 @@
 		return opacity;
 	}
 
+	function createWeightedMatrix(data) {
+		var w = nj.zeros([dim["x"], dim["y"], dim["z"]]);
+		var len = data.selection.data.length;
+		for(i = 0; i < len; i++) {
+			var x = data.get(i).get(0);
+			var y = data.get(i).get(1);
+			var z = data.get(i).get(2);
+			//console.log("X: ", x, "Y: ", y, "Z: ", z);
+			w.set(x-1, y-1, z-1, 1);
+		}
+		return w;
+	}
+
 	function createRandData() {
-		data = nj.zeros([dim["x"], dim["y"], dim["z"]]);
-		console.log(data);
+		var data = nj.zeros([dim["x"], dim["y"], dim["z"]]);
 		for(posx = 0; posx < dim["x"]; posx++) {
 			for(posy = 0; posy < dim["y"]; posy++) {
 				for(posz = 0; posz < dim["z"]; posz++) {
@@ -139,7 +174,6 @@
 				}
 			}
 		}
-		console.log(data.get(2,1,1));
 		return data;
 	}
 
@@ -162,17 +196,18 @@
 			var num = data.get(posx, posy, posz);
 
 			var percent = (num/max)*100;
+
 			var cubeColor = percentToColor(percent,240,0);
 			// 240 	blue
 			// 0 	red
-			var cubeOpacity = percentToOpacity(percent,0.05,1.0);
+
+			var cubeOpacity = percentToOpacity(percent,0.01,.95);
 			// 0 	Not visible (fully transparent)
 			// 1 	no transparency
-			var wireOpacity = percentToOpacity(percent,0.1,1.0);
+
 			// Set visual parameters
 			setColor(cubeGroup.children[i], cubeColor);
 			setOpacity(cubeGroup.children[i], cubeOpacity);
-			setOpacity(wireGroup.children[i], wireOpacity);
 		}
 	}
 
@@ -185,6 +220,7 @@
 	function onWindowResize() {
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
+		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
 	}
 
