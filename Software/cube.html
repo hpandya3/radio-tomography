@@ -120,10 +120,9 @@
 
 		// Setup voxel traversal algorithm
 		voxelTrav = new VoxelTraversal(dim["x"], dim["y"], dim["z"]);
-		var from = nj.array([10,10,10]);
-		var to = nj.array([1,5,8]);
-		var voxels = voxelTrav.getVoxels(from, to);
-		var wMat = createWeightedMatrix(voxels);
+		var from = nj.array([2,5,9]);
+		var to = nj.array([10,5,2]);
+		var wMat = voxelTrav.getVoxels(from, to, 0.5);
 
 		/* 			Test 			*/
 		updateColor(wMat);
