@@ -1,23 +1,24 @@
 class VoxelTraversal {
-	constructor(limX, limY, limZ) {
-		this.limX = limX;
-		this.limY = limY;
-		this.limZ = limZ;
+	constructor(from, to, ellipWidth) {
+		this.limX = dim["x"];
+		this.limY = dim["y"];
+		this.limZ = dim["z"];
+		this.from = from;
+		this.to = to;
+		this.eWidth = ellipWidth;
 	}
 	
-	getVoxels(from, to, ellipWidth) {
+	get voxelSet() {
 		// Initialisation
 		this.w = nj.zeros([this.limX, this.limY, this.limZ]);
-		this.eWidth = ellipWidth;
-		this.from = from;
-		this.fromX = from.get(0);
-		this.fromY = from.get(1);
-		this.fromZ = from.get(2);
 
-		this.to = to;
-		this.toX = to.get(0);
-		this.toY = to.get(1);
-		this.toZ = to.get(2);
+		this.fromX = this.from[0];
+		this.fromY = this.from[1];
+		this.fromZ = this.from[2];
+
+		this.toX = this.to[0];
+		this.toY = this.to[1];
+		this.toZ = this.to[2];
 
 		this.stepX = this.step(this.fromX, this.toX);
 		this.stepY = this.step(this.fromY, this.toY);
@@ -25,7 +26,9 @@ class VoxelTraversal {
 
 		this.length = this.findDistance(this.fromX, this.fromY, 
 			this.fromZ, this.toX, this.toY, this.toZ);
+		//console.log("Length: ", this.length);
 		this.wg = 1/Math.sqrt(this.length); // Weight
+
 
 		this.deltaX = this.length/Math.abs(this.toX - this.fromX);
 		this.deltaY = this.length/Math.abs(this.toY - this.fromY);
@@ -36,14 +39,39 @@ class VoxelTraversal {
 		this.maxY = this.deltaY/2;
 		this.maxZ = this.deltaZ/2;
 
-		console.log(this.deltaX);
-		console.log(this.deltaY);
-		console.log(this.deltaZ);
+		// console.log(this.deltaX);
+		// console.log(this.deltaY);
+		// console.log(this.deltaZ);
 
 		this.X = this.fromX;
 		this.Y = this.fromY;
 		this.Z = this.fromZ;
-		this.checkEllipsoid(this.X, this.Y, this.Z);
+
+		if(this.stepX != 0) {
+			this.centerX = this.X + Math.ceil(this.length/(2*this.stepX*this.deltaX));
+		} else {
+			this.centerX = this.X;
+		}
+		if(this.stepY != 0) {
+			this.centerY = this.Y + Math.ceil(this.length/(2*this.stepY*this.deltaY));
+		} else {
+			this.centerY = this.Y;
+		}
+		if(this.stepZ != 0) {
+			this.centerZ = this.Z + Math.ceil(this.length/(2*this.stepZ*this.deltaZ));
+		} else {
+			this.centerZ = this.Z;
+		}
+		
+		// console.log("Center: ");
+		// console.log(this.centerX);
+		// console.log(this.centerY);
+		// console.log(this.centerZ);
+
+
+		// Begin from center to create ellipsoid
+		this.checkEllipsoid(this.centerX, this.centerY, this.centerZ);
+
 		this.voxNum = 0;
 		do {
 			//console.log("X: ", this.X, "Y: ", this.Y, "Z: ", this.Z);
@@ -151,6 +179,7 @@ class VoxelTraversal {
 			if(!this.checkBorder(x+1, y+1, z+1)) {
 				this.checkEllipsoid(x+1, y+1, z+1);
 			}
+			
 			// Negative movement
 			if(!this.checkBorder(x, y, z-1)) {
 				this.checkEllipsoid(x, y, z-1);
@@ -179,6 +208,7 @@ class VoxelTraversal {
 		}
 	}
 
+	// Finds distance between two points
 	findDistance(fX, fY, fZ, tX, tY, tZ) {
 		return Math.sqrt(Math.pow(tX - fX, 2) + 
 			Math.pow(tY - fY, 2) + 
