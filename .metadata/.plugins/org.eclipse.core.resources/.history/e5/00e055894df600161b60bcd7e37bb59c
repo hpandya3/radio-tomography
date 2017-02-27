@@ -1,0 +1,48 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/board_key.c \
+C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/board_lcd.c \
+F:/Documents/Thesis/sBLE_ObBr/multi_role_base.c \
+F:/Documents/Thesis/sBLE_UART/simple_UART.c \
+C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/util.c 
+
+OBJS += \
+./Application/board_key.obj \
+./Application/board_lcd.obj \
+./Application/multi_role_base.obj \
+./Application/simple_UART.obj \
+./Application/util.obj 
+
+C_DEPS += \
+./Application/board_key.d \
+./Application/board_lcd.d \
+./Application/multi_role_base.d \
+./Application/simple_UART.d \
+./Application/util.d 
+
+C_DEPS__QUOTED += \
+"Application\board_key.d" \
+"Application\board_lcd.d" \
+"Application\multi_role_base.d" \
+"Application\simple_UART.d" \
+"Application\util.d" 
+
+OBJS__QUOTED += \
+"Application\board_key.obj" \
+"Application\board_lcd.obj" \
+"Application\multi_role_base.obj" \
+"Application\simple_UART.obj" \
+"Application\util.obj" 
+
+C_SRCS__QUOTED += \
+"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/board_key.c" \
+"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/board_lcd.c" \
+"F:/Documents/Thesis/sBLE_ObBr/multi_role_base.c" \
+"F:/Documents/Thesis/sBLE_UART/simple_UART.c" \
+"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/util.c" 
+
+

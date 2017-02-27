@@ -1,0 +1,19 @@
+
+**** Build of configuration FlashROM for project multi_role_stack ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/tools/LibSearch/libSearch.exe C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/multi_role_stack/../../IAR/Stack/CC2640/buildConfig.opt C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/tools/LibSearch/parameters.xml C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Libraries/CC26xx/IAR/ C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/multi_role_stack/../../IAR/Stack/CC2640/../../Lib/CC2640Stack.a FlashROM
+<<< ERRROR >>>
+Cannot match C:\ti\simplelink\ble_cc26xx_2_01_00_44423\Projects\ble\SimpleBLEMulti\CC26xx\IAR\Stack\CC2640\buildConfig.opt to any library .opt file in C:\ti\simplelink\ble_cc26xx_2_01_00_44423\Projects\ble\Libraries\CC26xx\IAR
+	Searched against the following defines in C:\ti\simplelink\ble_cc26xx_2_01_00_44423\Projects\ble\SimpleBLEMulti\CC26xx\IAR\Stack\CC2640\buildConfig.opt: 
+		"-DHOST_CONFIG=BROADCASTER_CFG+OBSERVER_CFG"
+		"-DGATT_NO_SERVICE_CHANGED"
+		"-DCTRL_V41_CONFIG=PING_CFG+SLV_FEAT_EXCHG_CFG+CONN_PARAM_REQ_CFG+MST_SLV_CFG"
+		"//-DL2CAP_CO_CHANNELS"
+<<< /ERROR >>>
+makefile:212: recipe for target 'pre-build' failed
+gmake[1]: [pre-build] Error 1 (ignored)
+' '
+gmake[1]: Nothing to be done for 'main-build'.
+
+**** Build Finished ****

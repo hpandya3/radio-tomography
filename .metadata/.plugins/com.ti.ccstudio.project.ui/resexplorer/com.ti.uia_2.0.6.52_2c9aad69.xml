@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource.explorer version="1.0" name="System Analyzer (UIA Target)" dir="" href="http://processors.wiki.ti.com/index.php/Multicore_System_Analyzer">
+
+	<contents name="Generic Devices" desc="Generic Devices" icon="plugin://icons/obj16/targetFamily.png">
+		<contents name="Custom ARM Device" desc="Custom ARM Device" icon="plugin://icons/obj16/target.png">
+				<filter id="filter_20364792652168">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Custom ARM Device</tag>
+					<tag>Generic Devices</tag>
+					</search.tags>
+				</filter>
+				<contents name="Instrumentation Examples" desc="Instrumentation Example Projects" customPageType="genericNote">
+				<filter id="filter_20364793465755">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Custom ARM Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Instrumentation Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="TI Target Examples" desc="System Analyzer (UIA) Examples for TI targets." customPageType="genericNote">
+				<filter id="filter_20364818233610">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Custom ARM Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>TI Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364821747871">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Custom ARM Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_0.projectspec">
+					<filter.ref ref.id="filter_20364821747871"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_CustomARMDevice"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.CustomTMS470Device"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_1.projectspec">
+					<filter.ref ref.id="filter_20364821747871"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_CustomARMDevice"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.CustomTMS470Device"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				</contents>
+		</contents>
+		<contents name="Generic CortexA8 Device" desc="Generic CortexA8 Device" icon="plugin://icons/obj16/target.png">
+				<filter id="filter_20364851894614">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA8 Device</tag>
+					<tag>Generic Devices</tag>
+					</search.tags>
+				</filter>
+				<contents name="Instrumentation Examples" desc="Instrumentation Example Projects" customPageType="genericNote">
+				<filter id="filter_20364851899573">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA8 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Instrumentation Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="GNU Target Examples" desc="System Analyzer (UIA) Examples for GNU targets." customPageType="genericNote">
+				<filter id="filter_20364851903366">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA8 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>GNU Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364851910950">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA8 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_29.projectspec">
+					<filter.ref ref.id="filter_20364851910950"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_GenericCortexA8Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA8Device"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_30.projectspec">
+					<filter.ref ref.id="filter_20364851910950"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_GenericCortexA8Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA8Device"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				<contents name="TI Target Examples" desc="System Analyzer (UIA) Examples for TI targets." customPageType="genericNote">
+				<filter id="filter_20364852023551">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA8 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>TI Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364852035803">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA8 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_2.projectspec">
+					<filter.ref ref.id="filter_20364852035803"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_GenericCortexA8Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA8Device"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_3.projectspec">
+					<filter.ref ref.id="filter_20364852035803"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_GenericCortexA8Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA8Device"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				</contents>
+		</contents>
+		<contents name="Generic CortexA9 Device" desc="Generic CortexA9 Device" icon="plugin://icons/obj16/target.png">
+				<filter id="filter_20364852237960">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA9 Device</tag>
+					<tag>Generic Devices</tag>
+					</search.tags>
+				</filter>
+				<contents name="Instrumentation Examples" desc="Instrumentation Example Projects" customPageType="genericNote">
+				<filter id="filter_20364852243794">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA9 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Instrumentation Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="GNU Target Examples" desc="System Analyzer (UIA) Examples for GNU targets." customPageType="genericNote">
+				<filter id="filter_20364852247295">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA9 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>GNU Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364852255463">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA9 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_31.projectspec">
+					<filter.ref ref.id="filter_20364852255463"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_GenericCortexA9Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA9Device"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_32.projectspec">
+					<filter.ref ref.id="filter_20364852255463"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_GenericCortexA9Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA9Device"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				</contents>
+		</contents>
+		<contents name="Generic CortexA15 Device" desc="Generic CortexA15 Device" icon="plugin://icons/obj16/target.png">
+				<filter id="filter_20364852501085">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA15 Device</tag>
+					<tag>Generic Devices</tag>
+					</search.tags>
+				</filter>
+				<contents name="Instrumentation Examples" desc="Instrumentation Example Projects" customPageType="genericNote">
+				<filter id="filter_20364852506335">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA15 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Instrumentation Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="GNU Target Examples" desc="System Analyzer (UIA) Examples for GNU targets." customPageType="genericNote">
+				<filter id="filter_20364852510128">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA15 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>GNU Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364852518004">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>Generic CortexA15 Device</tag>
+					<tag>Generic Devices</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_33.projectspec">
+					<filter.ref ref.id="filter_20364852518004"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_GenericCortexA15Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA15Device"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_34.projectspec">
+					<filter.ref ref.id="filter_20364852518004"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_GenericCortexA15Device"/>
+							<attribute key="device.variant" value="com.ti.ccstudio.deviceModel.TMS470.GenericCortexA15Device"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				</contents>
+		</contents>
+	</contents>
+	<contents name="Wireless Connectivity MCU" desc="Wireless Connectivity MCU" icon="plugin://icons/obj16/targetFamily.png">
+		<contents name="CC3200" desc="CC3200" icon="plugin://icons/obj16/target.png">
+				<filter id="filter_20364864316610">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					</search.tags>
+				</filter>
+				<contents name="Instrumentation Examples" desc="Instrumentation Example Projects" customPageType="genericNote">
+				<filter id="filter_20364864322736">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>Instrumentation Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="GNU Target Examples" desc="System Analyzer (UIA) Examples for GNU targets." customPageType="genericNote">
+				<filter id="filter_20364864326529">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>GNU Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364864334113">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_37.projectspec">
+					<filter.ref ref.id="filter_20364864334113"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_CC3200"/>
+							<attribute key="device.variant" value="Cortex M.CC3200"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_38.projectspec">
+					<filter.ref ref.id="filter_20364864334113"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_CC3200"/>
+							<attribute key="device.variant" value="Cortex M.CC3200"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				<contents name="TI Target Examples" desc="System Analyzer (UIA) Examples for TI targets." customPageType="genericNote">
+				<filter id="filter_20364865029556">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>TI Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364865043558">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_10.projectspec">
+					<filter.ref ref.id="filter_20364865043558"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_CC3200"/>
+							<attribute key="device.variant" value="Cortex M.CC3200"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_11.projectspec">
+					<filter.ref ref.id="filter_20364865043558"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_CC3200"/>
+							<attribute key="device.variant" value="Cortex M.CC3200"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				</contents>
+		</contents>
+		<contents name="CC3200-SWD" desc="CC3200-SWD" icon="plugin://icons/obj16/target.png">
+				<filter id="filter_20364865213626">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200-SWD</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					</search.tags>
+				</filter>
+				<contents name="Instrumentation Examples" desc="Instrumentation Example Projects" customPageType="genericNote">
+				<filter id="filter_20364865220044">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200-SWD</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>Instrumentation Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="GNU Target Examples" desc="System Analyzer (UIA) Examples for GNU targets." customPageType="genericNote">
+				<filter id="filter_20364865223545">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200-SWD</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>GNU Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364865231421">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200-SWD</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_37.projectspec">
+					<filter.ref ref.id="filter_20364865231421"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_CC3200SWD"/>
+							<attribute key="device.variant" value="Cortex M.CC3200-SWD"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\gnuTargetExamples\single_coreExamples\com_ti_uia_example_38.projectspec">
+					<filter.ref ref.id="filter_20364865231421"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_CC3200SWD"/>
+							<attribute key="device.variant" value="Cortex M.CC3200-SWD"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				<contents name="TI Target Examples" desc="System Analyzer (UIA) Examples for TI targets." customPageType="genericNote">
+				<filter id="filter_20364865689993">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200-SWD</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>TI Target Examples</tag>
+					</search.tags>
+				</filter>
+				<contents name="Single-core Examples" desc="System Analyzer (UIA) Single-core Examples" customPageType="genericNote">
+				<filter id="filter_20364865703120">
+					<devices><device>ARM</device></devices>
+					<search.tags>
+					<tag>CC3200-SWD</tag>
+					<tag>Wireless Connectivity MCU</tag>
+					<tag>Single-core Examples</tag>
+					</search.tags>
+				</filter>
+				<content name="Hello World" desc="A basic example that logs a hello world string that can be viewed using System Analyzer." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_10.projectspec">
+					<filter.ref ref.id="filter_20364865703120"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="helloWorld_CC3200SWD"/>
+							<attribute key="device.variant" value="Cortex M.CC3200-SWD"/>
+						</attributes>
+					</type>
+				</content>
+				<content name="Stairstep JTAG StopMode" desc="The stairstep example runs continuously and periodically generates log events. Different threads (Hwi, Swi, Task) run to present a CPU load to the system.  The Log data is obtained when the target is halted.  The sizes of the loggers in LoggingSetup might need to be decreased if your target does not have enough memory." href="C:\ti\uia_2_00_06_52\resources\instrumentationExamples\tiTargetExamples\single_coreExamples\com_ti_uia_example_11.projectspec">
+					<filter.ref ref.id="filter_20364865703120"/>
+					<type>projectSpec
+						<attributes>
+							<attribute key="project.name" value="stairstepStopMode_CC3200SWD"/>
+							<attribute key="device.variant" value="Cortex M.CC3200-SWD"/>
+						</attributes>
+					</type>
+				</content>
+				</contents>
+				</contents>
+				</contents>
+		</contents>
+	</contents>
+
+</resource.explorer>

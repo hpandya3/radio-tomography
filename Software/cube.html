@@ -35,6 +35,7 @@
 	<script type="text/javascript" src="js/Link.js"></script>
 	<script type="text/javascript" src="js/Backprojection.js"></script>
 	<script>
+
 	// Dimensions
 	var dim = {x:15 , y:10 , z:15};
 	var scene,
@@ -44,8 +45,16 @@
 		voxelTrav,
 		controls;
 
+	initUSB();
 	init();
 	render();
+
+	function initUSB() {
+		var sp = require('serialport');
+		p.list(function(err, ports) {
+			console.log(ports);
+		});
+	}
 
 	function init() {
 		// Scene

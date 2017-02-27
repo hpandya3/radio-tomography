@@ -1,14 +1,27 @@
 {
   "name": "3D-Tomography",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.1",
+  "description": "An app to image/graph radio tomography data in three dimensions.",
   "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hpand3/radio-tomography.git"
+  },
   "scripts": {
     "start": "electron main.js"
   },
   "author": "Harsh Pandya <hpand3@gmail.com>",
-  "license": "None",
+  "license": "MIT",
+  "dependencies": {
+    "serialport": "^4.0.7"
+  },
   "devDependencies": {
-    "electron-prebuilt": "^1.2.5"
+    "electron-prebuilt": "^1.2.5",
+    "electron-rebuild": "^1.5.7"
+  },
+  "binary": {
+    "module_name": "radio-tomography",
+    "module_path": "",
+    "host": ""
   }
 }

@@ -1,0 +1,134 @@
+
+**** Build of configuration FlashROM for project SimpleBLECentralStack ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/../../../../../../tools/LibSearch/libSearch.exe C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/buildConfig.opt C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/../../../../../../tools/LibSearch/parameters.xml C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/../../../../../Libraries/CC26xx/IAR/ C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/../../Lib/CC2640Stack.a FlashROM
+<<< ERRROR >>>
+Cannot match C:\ti\simplelink\ble_cc26xx_2_01_00_44423\Projects\ble\SimpleBLEMulti\CC26xx\IAR\Stack\CC2640\buildConfig.opt to any library .opt file in C:\ti\simplelink\ble_cc26xx_2_01_00_44423\Projects\ble\Libraries\CC26xx\IAR
+	Searched against the following defines in C:\ti\simplelink\ble_cc26xx_2_01_00_44423\Projects\ble\SimpleBLEMulti\CC26xx\IAR\Stack\CC2640\buildConfig.opt: 
+		"-DHOST_CONFIG=BROADCASTER_CFG+OBSERVER_CFG"
+		"-DCTRL_V41_CONFIG=PING_CFG+SLV_FEAT_EXCHG_CFG+CONN_PARAM_REQ_CFG+MST_SLV_CFG"
+		"//-DL2CAP_CO_CHANNELS"
+		"//-DGATT_NO_SERVICE_CHANGED"
+<<< /ERROR >>>
+makefile:212: recipe for target 'pre-build' failed
+gmake[1]: [pre-build] Error 1 (ignored)
+' '
+'Building file: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Stack/CC2640/OSAL_ICallBle.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/Source/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/CC2650TIRTOS" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/_common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/osal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/saddr" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/icall/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/controller/CC26xx/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/hci" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/host" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/aes/CC26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/npi" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/npi/npi_np/CC26xx/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Profiles/Roles" --include_path="C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600" --define=USE_ICALL --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --define=ccs --define=DEBUG --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Startup/OSAL_ICallBle.d" --obj_directory="Startup"  "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Stack/CC2640/OSAL_ICallBle.c"
+'Finished building: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Stack/CC2640/OSAL_ICallBle.c'
+' '
+'Building target: SimpleBLECentralStack.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/SimpleBLEMultiStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --define=USE_ICALL --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --define=ccs --define=DEBUG --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"SimpleBLECentralStack.map" --heap_size=0 --stack_size=256 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --reread_libs --diag_suppress=16002-D --diag_suppress=10325-D --diag_suppress=10247-D --diag_wrap=off --display_error_number --warn_sections --xml_link_info="SimpleBLECentralStack_linkInfo.xml" --entry_point=startup_entry --rom_model --compress_dwarf=on --unused_section_elimination=on -o "SimpleBLECentralStack.out" "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/CCS/Config/ccsLinkerDefines.cmd" "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/CCS/cc26xx_ble_stack.cmd" "./HAL/Common/hal_assert.obj" "./HAL/Target/CC2650/Drivers/hal_flash_wrapper.obj" "./HAL/Target/CC2650/Drivers/hal_rtc_wrapper.obj" "./HAL/Target/CC2650/Drivers/hal_trng_wrapper.obj" "./HAL/Target/CC2650/_common/mb_PATCH.obj" "./ICallBLE/bleDispatch.obj" "./NPI/npi.obj" "./OSAL/OSAL.obj" "./OSAL/OSAL_Clock.obj" "./OSAL/OSAL_MemoryICall.obj" "./OSAL/OSAL_PwrMgr.obj" "./OSAL/OSAL_Timers.obj" "./OSAL/osal_bufmgr.obj" "./OSAL/osal_cbtimer.obj" "./OSAL/osal_snv_wrapper.obj" "./PROFILES/gap.obj" "./PROFILES/gapbondmgr.obj" "./PROFILES/gattservapp_util.obj" "./Startup/CommonROM_Init.obj" "./Startup/ICall_startup.obj" "./Startup/OSAL_ICallBle.obj" "./Startup/ROM_Init.obj" "./Startup/bleUserConfig.obj" "./TOOLS/OnBoard.obj"  -llibc.a -l"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Lib/CC2640Stack.a" -l"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Lib/CC2640Stack_HCI_TL.a" -l"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/common/BLE_ROM_Releases/04242014/ble_rom_PATCH.symbols" -l"C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600/driverlib/bin/ccs/driverlib.lib" 
+<Linking>
+error #10008-D: cannot find file "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Lib/CC2640Stack.a"
+error #10008-D: cannot find file "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Lib/CC2640Stack_HCI_TL.a"
+
+ undefined                             first referenced
+  symbol                                   in file     
+ ---------                             ----------------
+ GAP_CentDevMgrInit                    <whole-program> 
+ GAP_DeviceDiscoveryCancel             <whole-program> 
+ GAP_DeviceDiscoveryRequest            <whole-program> 
+ GAP_EndDiscoverable                   <whole-program> 
+ GAP_GetParamValue                     <whole-program> 
+ GAP_Init                              <whole-program> 
+ GAP_MakeDiscoverable                  <whole-program> 
+ GAP_ParamsInit                        <whole-program> 
+ GAP_PeriDevMgrInit                    <whole-program> 
+ GAP_ProcessEvent                      <whole-program> 
+ GAP_RegisterForMsgs                   <whole-program> 
+ GAP_RemoveAdvToken                    <whole-program> 
+ GAP_SetAdvToken                       <whole-program> 
+ GAP_SetParamValue                     <whole-program> 
+ GAP_UpdateAdvTokens                   <whole-program> 
+ GAP_UpdateAdvertisingData             <whole-program> 
+ GATTServApp_Init                      <whole-program> 
+ GATTServApp_ProcessEvent              <whole-program> 
+ GATT_Init                             <whole-program> 
+ GATT_ProcessEvent                     <whole-program> 
+ HCI_EXT_DelaySleepCmd                 <whole-program> 
+ HCI_EXT_ResetSystemCmd                <whole-program> 
+ HCI_Init                              <whole-program> 
+ HCI_LE_ReadBufSizeCmd                 <whole-program> 
+ HCI_LE_ReceiverTestCmd                <whole-program> 
+ HCI_LE_SetEventMaskCmd                <whole-program> 
+ HCI_LE_TransmitterTestCmd             <whole-program> 
+ HCI_ProcessEvent                      <whole-program> 
+ HCI_ReadLocalSupportedCommandsCmd     <whole-program> 
+ HCI_ReadLocalVersionInfoCmd           <whole-program> 
+ HCI_ResetCmd                          <whole-program> 
+ HCI_SetEventMaskPage2Cmd              <whole-program> 
+ HCI_ValidConnTimeParams               <whole-program> 
+ HCI_VendorSpecifcCommandCompleteEvent <whole-program> 
+ L2CAP_Init                            <whole-program> 
+ L2CAP_ProcessEvent                    <whole-program> 
+ L2CAP_SetUserConfig                   <whole-program> 
+ LL_ConnParamUpdateCback               <whole-program> 
+ LL_DirectTestEnd                      <whole-program> 
+ LL_DirectTestRxTest                   <whole-program> 
+ LL_DirectTestTxTest                   <whole-program> 
+ LL_EXT_BuildRevision                  <whole-program> 
+ LL_EXT_ModemTestRx                    <whole-program> 
+ LL_EXT_SetLocalSupportedFeatures      <whole-program> 
+ LL_EXT_SetMaxDtmTxPower               <whole-program> 
+ LL_EXT_SetTxPower                     <whole-program> 
+ LL_Init                               <whole-program> 
+ LL_PM_Enter_AES                       <whole-program> 
+ LL_PM_Exit_AES                        <whole-program> 
+ LL_PM_ForceSysBusThroughRF            <whole-program> 
+ LL_PM_GetRfCoreState                  <whole-program> 
+ LL_PM_Init                            <whole-program> 
+ LL_PM_PowerCycleRadio                 <whole-program> 
+ LL_PM_PowerOffRfCore                  <whole-program> 
+ LL_PM_PowerOnReq                      <whole-program> 
+ LL_PM_PowerOnRfCore                   <whole-program> 
+ LL_PM_StartRfTask                     <whole-program> 
+ LL_PM_StopCurTaskTimer                <whole-program> 
+ LL_ProcessEvent                       <whole-program> 
+ LL_ReadSupportedStates                <whole-program> 
+ LL_Reset                              <whole-program> 
+ LL_SetAdvControl                      <whole-program> 
+ SM_Init                               <whole-program> 
+ SM_ProcessEvent                       <whole-program> 
+ SysBootMsg                            <whole-program> 
+ bleDispatch_BMAlloc                   <whole-program> 
+ bleDispatch_BMFree                    <whole-program> 
+ cpe0IntCback                          <whole-program> 
+ cpe1IntCback                          <whole-program> 
+ hciGapTaskID                          <whole-program> 
+ hciInitEventMasks                     <whole-program> 
+ hciL2capTaskID                        <whole-program> 
+ hciSmpTaskID                          <whole-program> 
+ hciTaskID                             <whole-program> 
+ hciTestTaskID                         <whole-program> 
+ hwIntCback                            <whole-program> 
+ llActiveTask                          <whole-program> 
+ llAllocTask                           <whole-program> 
+ llConfigTable                         <whole-program> 
+ llGetTask                             <whole-program> 
+ llGetTaskState                        <whole-program> 
+ llGetTxPower                          <whole-program> 
+ llHardwareError                       <whole-program> 
+ llInitFeatureSet                      <whole-program> 
+ llRatChanCBack_A                      <whole-program> 
+ llRfInit                              <whole-program> 
+ llScheduleTask                        <whole-program> 
+ llSchedulerInit                       <whole-program> 
+ llSetTxPower                          <whole-program> 
+ llUserConfig                          <whole-program> 
+ ll_buildRevision                      <whole-program> 
+
+error #10234-D: unresolved symbols remain
+
+error #10010: errors encountered during linking; "SimpleBLECentralStack.out" not built
+>> Compilation failure
+makefile:189: recipe for target 'SimpleBLECentralStack.out' failed
+gmake[1]: *** [SimpleBLECentralStack.out] Error 1
+gmake[1]: Target 'main-build' not remade because of errors.
+gmake: *** [all] Error 2
+makefile:181: recipe for target 'all' failed
+
+**** Build Finished ****

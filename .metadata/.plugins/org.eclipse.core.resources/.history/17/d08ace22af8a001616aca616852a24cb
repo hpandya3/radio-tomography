@@ -1,0 +1,56 @@
+################################################################################
+# Automatically-generated file. Do not edit!
+################################################################################
+
+# Add inputs and outputs from these tool invocations to the build variables 
+C_SRCS += \
+C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/bim_main.c \
+C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/bls_bsp.c \
+C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/ccfg_app_ble.c \
+C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/startup_files/startup_ccs.c 
+
+S_SRCS += \
+C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/baseloaderentry_ti.s 
+
+OBJS += \
+./Application/baseloaderentry_ti.obj \
+./Application/bim_main.obj \
+./Application/bls_bsp.obj \
+./Application/ccfg_app_ble.obj \
+./Application/startup_ccs.obj 
+
+S_DEPS += \
+./Application/baseloaderentry_ti.d 
+
+C_DEPS += \
+./Application/bim_main.d \
+./Application/bls_bsp.d \
+./Application/ccfg_app_ble.d \
+./Application/startup_ccs.d 
+
+C_DEPS__QUOTED += \
+"Application\bim_main.d" \
+"Application\bls_bsp.d" \
+"Application\ccfg_app_ble.d" \
+"Application\startup_ccs.d" 
+
+S_DEPS__QUOTED += \
+"Application\baseloaderentry_ti.d" 
+
+OBJS__QUOTED += \
+"Application\baseloaderentry_ti.obj" \
+"Application\bim_main.obj" \
+"Application\bls_bsp.obj" \
+"Application\ccfg_app_ble.obj" \
+"Application\startup_ccs.obj" 
+
+S_SRCS__QUOTED += \
+"C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/baseloaderentry_ti.s" 
+
+C_SRCS__QUOTED += \
+"C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/bim_main.c" \
+"C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/bls_bsp.c" \
+"C:/ti/simplelink/ble_sdk_2_02_00_31/src/examples/util/bim_extflash/cc2640/ccfg_app_ble.c" \
+"C:/ti/tirtos_cc13xx_cc26xx_2_18_00_03/products/cc26xxware_2_23_03_17162/startup_files/startup_ccs.c" 
+
+

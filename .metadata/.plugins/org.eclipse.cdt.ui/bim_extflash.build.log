@@ -1,7 +1,7 @@
 
-**** Build of configuration FlashOnly_ST for project bim_extflash ****
+**** Build of configuration FlashOnly for project BIM_ExtFlash ****
 
-"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k -j 8 all -O 
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
 gmake: Nothing to be done for 'all'.
 
 **** Build Finished ****

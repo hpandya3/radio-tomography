@@ -1,0 +1,123 @@
+
+**** Build of configuration FlashROM for project SimpleBLEPeripheralStack ****
+
+"C:\\ti\\ccsv6\\utils\\bin\\gmake" -k all 
+C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../../tools/LibSearch/libSearch.exe C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/buildConfig.opt C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../../tools/LibSearch/parameters.xml C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../Libraries/CC26xx/IAR/ C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../Lib/CC2640Stack.a FlashROM
+<<< Using Library: CC2640_BLE_peri_observ_HL_CL_FlashROM.a >>>
+<<< Using Library: CC2640_BLE_HCI_TL_None.a >>>
+' '
+'Building file: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/ICall_startup.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/Source/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/CC2650TIRTOS" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/_common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/osal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/saddr" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/icall/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/controller/CC26xx/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/hci" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/host" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/aes/CC26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/npi" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/npi/npi_np/CC26xx/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Profiles/Roles" --include_path="C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600" --define=USE_ICALL --define=OSAL_SNV=2 --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=GATT_NO_CLIENT --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=xDEBUG --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Startup/ICall_startup.d" --obj_directory="Startup"  "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/ICall_startup.c"
+'Finished building: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/ICall_startup.c'
+' '
+'Building file: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Stack/CC2640/OSAL_ICallBle.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/Source/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/CC2650TIRTOS" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/_common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/osal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/saddr" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/icall/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/controller/CC26xx/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/hci" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/host" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/aes/CC26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/npi" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/npi/npi_np/CC26xx/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Profiles/Roles" --include_path="C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600" --define=USE_ICALL --define=OSAL_SNV=2 --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=GATT_NO_CLIENT --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=xDEBUG --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Startup/OSAL_ICallBle.d" --obj_directory="Startup"  "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Stack/CC2640/OSAL_ICallBle.c"
+'Finished building: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEMulti/CC26xx/IAR/Stack/CC2640/OSAL_ICallBle.c'
+' '
+'Building file: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM/ROM_Init.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/Source/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/CC2650TIRTOS" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/_common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/osal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/saddr" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/icall/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/controller/CC26xx/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/hci" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/host" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/aes/CC26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/npi" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/npi/npi_np/CC26xx/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Profiles/Roles" --include_path="C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600" --define=USE_ICALL --define=OSAL_SNV=2 --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=GATT_NO_CLIENT --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=xDEBUG --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Startup/ROM_Init.d" --obj_directory="Startup"  "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM/ROM_Init.c"
+'Finished building: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM/ROM_Init.c'
+' '
+'Building file: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Stack/bleUserConfig.c'
+'Invoking: ARM Compiler'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --include_path="C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/Source/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/CC2650TIRTOS" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/target/_common/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/hal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/osal/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv/cc26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/nv" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/saddr" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/icall/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/controller/CC26xx/include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/ROM" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/hci" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/ble/host" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/services/aes/CC26xx" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Components/npi" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/npi/npi_np/CC26xx/Stack" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Include" --include_path="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/Profiles/Roles" --include_path="C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600" --define=USE_ICALL --define=OSAL_SNV=2 --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=GATT_NO_CLIENT --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=xDEBUG --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --preproc_with_compile --preproc_dependency="Startup/bleUserConfig.d" --obj_directory="Startup"  "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Stack/bleUserConfig.c"
+'Finished building: C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/ICall/Stack/bleUserConfig.c'
+' '
+'Building target: SimpleBLEPeripheralStack.out'
+'Invoking: ARM Linker'
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armcl" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../config/buildComponents.opt" --cmd_file="C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/buildConfig.opt"  -mv7M3 --code_state=16 -me -O4 --opt_for_speed=0 --define=USE_ICALL --define=OSAL_SNV=2 --define=FLASH_ROM_BUILD --define=POWER_SAVING --define=GATT_NO_CLIENT --define=INCLUDE_AES_DECRYPT --define=xPM_DISABLE_PWRDOWN --define=xTESTMODES --define=xTEST_BLEBOARD --define=OSAL_CBTIMER_NUM_TASKS=1 --define=xDEBUG --define=HALNODEBUG --define=xDEBUG_GPIO --define=xDEBUG_ENC --define=xDEBUG_SW_TRACE --define=NEAR_FUNC= --define=DATA= --define=CC26XXWARE --define=CC26XX --diag_suppress=48 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"SimpleBLEPeripheralStack.map" --heap_size=0 --stack_size=256 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/include" --reread_libs --diag_suppress=16002-D --diag_suppress=10247-D --diag_suppress=10325-D --diag_wrap=off --display_error_number --warn_sections --xml_link_info="SimpleBLEPeripheralStack_linkInfo.xml" --entry_point=startup_entry --rom_model --compress_dwarf=on --unused_section_elimination=on -o "SimpleBLEPeripheralStack.out" "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/Config/ccsLinkerDefines.cmd" "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/common/cc26xx/CCS/cc26xx_ble_stack.cmd" "./HAL/Common/hal_assert.obj" "./HAL/Target/CC2650/Drivers/hal_flash_wrapper.obj" "./HAL/Target/CC2650/Drivers/hal_rtc_wrapper.obj" "./HAL/Target/CC2650/Drivers/hal_trng_wrapper.obj" "./HAL/Target/CC2650/_common/mb_PATCH.obj" "./ICallBLE/bleDispatch.obj" "./NPI/npi.obj" "./OSAL/OSAL.obj" "./OSAL/OSAL_Clock.obj" "./OSAL/OSAL_MemoryICall.obj" "./OSAL/OSAL_PwrMgr.obj" "./OSAL/OSAL_Timers.obj" "./OSAL/osal_bufmgr.obj" "./OSAL/osal_cbtimer.obj" "./OSAL/osal_snv_wrapper.obj" "./PROFILES/gap.obj" "./PROFILES/gapbondmgr.obj" "./PROFILES/gattservapp_util.obj" "./Startup/CommonROM_Init.obj" "./Startup/ICall_startup.obj" "./Startup/OSAL_ICallBle.obj" "./Startup/ROM_Init.obj" "./Startup/bleUserConfig.obj" "./TOOLS/OnBoard.obj"  -llibc.a -l"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/IAR/Lib/CC2640Stack.a" -l"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/IAR/Lib/CC2640Stack_HCI_TL.a" -l"C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/common/BLE_ROM_Releases/04242014/ble_rom_PATCH.symbols" -l"C:/ti/tirtos_simplelink_2_13_00_06/products/cc26xxware_2_21_01_15600/driverlib/bin/ccs/driverlib.lib" 
+<Linking>
+'Finished building target: SimpleBLEPeripheralStack.out'
+' '
+"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_16.6.0.STS/bin/armhex" -order MS --memwidth=8 --romwidth=8 --intel -o "SimpleBLEPeripheralStack.hex" "SimpleBLEPeripheralStack.out"
+Translating to Intel format...
+   "SimpleBLEPeripheralStack.out" EntrySection ==> EntrySection
+   "SimpleBLEPeripheralStack.out" .text ==> .text
+   "SimpleBLEPeripheralStack.out" .const ==> .const
+   "SimpleBLEPeripheralStack.out" .rodata ==> .rodata
+   "SimpleBLEPeripheralStack.out" .cinit ==> .cinit
+   "SimpleBLEPeripheralStack.out" .TI.bound:SNV_FLASH ==> .TI.bound:SNV_FLASH
+"C:\Program Files (x86)\Texas Instruments\Boundary\Boundary.exe" -prj "ccs" -chip "CC2640" -lcf "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../common/cc26xx/CCS/cc26xx_ble_stack.cmd" -map "F:/Documents/Thesis/SimpleBLEPeripheralStack/FlashROM/SimpleBLEPeripheralStack.map" -xml "C:\Program Files (x86)\Texas Instruments\Boundary\BoundaryConfig.xml" -cc "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../CCS/Config/ccsCompilerDefines.bcfg" -lnk "C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../CCS/Config/ccsLinkerDefines.cmd"
+
+Boundary - v1.0.5
+Use -help for command line help
+///////////////////////////////////////////////////////////////////////
+Processing Command Line Arguments
+
+[ Command Line Arguments ]
+-prj ccs -chip CC2640 -lcf C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../../../common/cc26xx/CCS/cc26xx_ble_stack.cmd -map F:/Documents/Thesis/SimpleBLEPeripheralStack/FlashROM/SimpleBLEPeripheralStack.map -xml C:\Program Files (x86)\Texas Instruments\Boundary\BoundaryConfig.xml -cc C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../CCS/Config/ccsCompilerDefines.bcfg -lnk C:/ti/simplelink/ble_cc26xx_2_01_00_44423/Projects/ble/SimpleBLEPeripheralObserver/CC26xx/CCS/SimpleBLEPeripheralStack/../../IAR/Stack/CC2640/../../../CCS/Config/ccsLinkerDefines.cmd 
+
+Processing Command Line Arguments -> Successful
+///////////////////////////////////////////////////////////////////////
+Processing Ccs
+///////////////////////////////////////////////////////////////////////
+Processing Linker Map File
+
+[ Map File Data ]
+Read Only Data Size = not_used
+Read Only Code Size = 0x000107EE (67566)
+Read Write Data Size = 0x000004E4 (1252)
+Ram End Address = 0x200048E7 (536889575)
+
+[ Stack Size Calculation ]
+Stack Size = 0x000107EE (67566)
+
+Processing Linker Map File -> Successful
+///////////////////////////////////////////////////////////////////////
+Processing Lcf File
+
+[ Lcf File Data ]
+Chip Name = not_used
+Nv Pages = not_used
+Flash Size = 0x00020000 (131072)
+Ram Size = 0x00005000 (20480)
+Page Size = 0x00001000 (4096)
+Reserved Pages = 0x00000001 (1)
+
+[ Flash Boundary Calculation ]
+Bytes Used In Last Page Of Image = 0x000007EE (2030)
+Bytes Unused In Last Page Of Image = 0x00000812 (2066)
+Used Stack Pages = 0x00000011 (17)
+NV Pages = 0x00000000 (0)
+Reserved Pages = 0x00000001 (1)
+Total Used Pages = 0x00000012 (18)
+Flash Boundary Address = 0x0000E000 (57344)
+
+[ Ram Boundary Calculation ]
+Margin Bytes = 0x002A (42)
+Unadjusted Ram Start Address = 0x200043D9 (536888281)
+Alignment Value = 0x04 (4)
+Final Alignment Value = 0x01 (1)
+Total Ram Size = 0x0000050F (1295)
+Ram Boundary Address = 0x200043D8 (536888280)
+
+[ Nv Boundary Calculation ]
+Reserved Size = 0x00001000 (4096)
+Reserved End = 0x0001FFFF (131071)
+Reserved Start = 0x0001F000 (126976)
+Nv Size = 0x00000000 (0)
+
+Processing Lcf File -> Successful
+///////////////////////////////////////////////////////////////////////
+Processing Project Config Files
+
+[ Compiler Config Settings ]
+Compiler Flash Config Page = 0x0000E000 (57344)
+Compiler Flash Config Boundary Page Matches Expected Boundary
+
+[ Linker Config Settings ]
+Linker Flash Config Page = 0x0000E000 (57344)
+Linker Flash Config Boundary Page Matches Expected Boundary
+Linker Ram Config Page = 0x200043D8 (536888280)
+Linker Ram Config Boundary Page Matches Expected Boundary
+
+Processing Project Config Files -> Successful
+///////////////////////////////////////////////////////////////////////
+Boundary Operation Complete
+///////////////////////////////////////////////////////////////////////
+' '
+
+**** Build Finished ****
