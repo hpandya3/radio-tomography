@@ -49,7 +49,7 @@ void echoFxn(UArg arg0, UArg arg1)
     uartParams.readDataMode = UART_DATA_BINARY;
     uartParams.readReturnMode = UART_RETURN_FULL;
     uartParams.readEcho = UART_ECHO_OFF;
-    uartParams.baudRate = 57600;
+    uartParams.baudRate = 115200;
     uart = UART_open(Board_UART, &uartParams);
 
     if (uart == NULL) {

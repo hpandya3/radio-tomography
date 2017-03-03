@@ -8,7 +8,8 @@
     "url": "https://github.com/hpand3/radio-tomography.git"
   },
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "install": "./node_modules/.bin/electron-rebuild"
   },
   "author": "Harsh Pandya <hpand3@gmail.com>",
   "license": "MIT",
@@ -17,7 +18,8 @@
   },
   "devDependencies": {
     "electron-prebuilt": "^1.2.5",
-    "electron-rebuild": "^1.5.7"
+    "electron-rebuild": "^1.5.7",
+    "node-pre-gyp": "^0.6.33"
   },
   "binary": {
     "module_name": "radio-tomography",

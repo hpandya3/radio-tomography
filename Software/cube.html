@@ -36,8 +36,20 @@
 	<script type="text/javascript" src="js/Backprojection.js"></script>
 	<script>
 
-	// Dimensions
-	var dim = {x:15 , y:10 , z:15};
+	// Dimensions of the room in meters
+	var lengthM = 3;
+	var widthM = 2.7;
+	var heightM = 2.6;
+
+	// Ratio
+	var voxelRatio = 0.2; // meter per voxel
+
+	// Dimensions in voxels
+	var heightV = Math.round(heightM/voxelRatio);
+	var lengthV = Math.round(lengthM/voxelRatio);
+	var widthV = Math.round(widthM/voxelRatio);
+
+	var dim = {x:lengthV, y:widthV , z:heightV};
 	var scene,
 		renderer,
 		cubeGroup,
@@ -45,14 +57,68 @@
 		voxelTrav,
 		controls;
 
+	global.backProj;
+
+	// Serial coms
+	var currPort;
+
+	// Scanning and channels
+	global.chnChange = 0;
+	global.scans = 0;
+	global.calibrationScans = 2;
+
 	initUSB();
 	init();
 	render();
 
+	function onOpen() {
+		console.log("Base station connected");
+	}
+
+	function onData(data) {
+		console.log(data);
+		var listRSS = data.split(',');
+		if(listRSS.length == 13) {
+			if(global.scans < global.calibrationScans) { // Calibrate
+				backProj.updateLinks(listRSS, true);
+			} else {
+				backProj.updateLinks(listRSS, false);
+			}
+		} else if(data.trim() == "Channel changed") {
+			global.chnChange++;
+			console.log("Progress " +  global.chnChange + "/3");
+			if(global.chnChange == 3) {
+				global.chnChange = 0;
+				global.scans++;
+				if(global.scans == global.calibrationScans) {
+					console.log("Calibration completed");
+				} else {
+					console.log("Scan completed: ", global.scans);
+				}
+				var wMat = backProj.projection;
+				updateColor(wMat);
+			}
+		}
+	}
+
 	function initUSB() {
 		var sp = require('serialport');
-		p.list(function(err, ports) {
-			console.log(ports);
+
+		sp.list(function(err, ports) {
+			ports.forEach(function(port) {
+				// Find the base station pnpid: "USB\VID_0451&PID_BEF3&MI_00\6&264DF45&0&0000"
+				if(port.pnpId == 'USB\\VID_0451&PID_BEF3&MI_00\\6&264DF45&0&0000') {
+					// Open port
+					currPort = new sp(port.comName, {
+						baudRate: 115200,
+						parser:sp.parsers.readline("\n")
+					});
+
+					currPort.on('open', onOpen);
+					currPort.on('data', onData);
+					return;
+				}
+			});
 		});
 	}
 
@@ -85,7 +151,7 @@
 		var cubeGeo = new THREE.CubeGeometry( 1, 1, 1 );
 		var wireGeo = new THREE.EdgesGeometry( cubeGeo );
 		var wireMat = new THREE.LineBasicMaterial( { color: 
-			0x000000, transparent: true, opacity: 0.05 } );
+			0x000000, transparent: true, opacity: 0.001 } );
 
 		// Mesh group
 		cubeGroup = new THREE.Group();
@@ -132,15 +198,7 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		// Setup voxel traversal algorithm
-		var backProj = new Backprojection(getReceivers(), 
-			getAdvertisers());
-		backProj.updateLinks(createRandData());
-		var wMat = backProj.projection;
-		wMat = clearVerticalBorder(wMat);
-
-		/* 			Test 			*/
-		updateColor(wMat);
-		/* 			End test 		*/
+		backProj = new Backprojection(getNodes());
 	}
 
 	function onWindowResize() {
@@ -152,7 +210,8 @@
 
 	function createRandData() {
 		var data = [];
-		var len = getReceivers().shape[0]*getAdvertisers().shape[0];
+		var numNodes = getNodes().shape[0];
+		var len = (Math.pow(numNodes, 2) - numNodes)/2;
 		for(i = 0; i < len; i++) {
 			if(i % 2 == 0) {
 				data[i] = getRandom()*100;	
@@ -191,22 +250,11 @@
 		return opacity;
 	}
 
-	function getReceivers() {
-		var recv = nj.array([[8, 5, 1], [8, 5, 15], 
-							[1, 5, 8], [15, 5, 8]]);
-		return recv;
-	}
-
-	function getAdvertisers() {
-		var adv = nj.array([[4, 7, 1], [4, 7, 15], 
-							[12, 7, 1], [12, 7, 15],
-							[1, 7, 4], [15, 7, 4], 
-							[1, 7, 12], [15, 7, 12],
-							[4, 3, 1], [4, 3, 15], 
-							[12, 3, 1], [12, 3, 15],
-							[1, 3, 4], [15, 3, 4],
-							[1, 3, 12], [15, 3, 12]]);
-		return adv;
+	function getNodes() {
+		// Format [length, height, width]
+		var nodePos = nj.array([[8, 7, 1], [1, 7, 7], 
+							[8, 7, 14]]);
+		return nodePos;
 	}
 
 	function clearVerticalBorder(data) {
@@ -225,8 +273,8 @@
 
 	function updateColor(data) {
 		// Max value
-		var max = data.max();
-		//console.log("Max", max);
+		var min = -20; // Subject to change
+		//console.log("Max", data);
 
 		// Change color
 		for(i = 0; i < cubeGroup.children.length; i++) {
@@ -239,9 +287,8 @@
 			var num = data.get(posx, posy, posz);
 			//console.log("num: ", num);
 
-			var percent = (num/max)*100;
+			var percent = Math.abs((num/min)*100);
 			
-
 			var cubeColor = percentToColor(percent,220,0);
 			// 240 	blue
 			// 0 	red

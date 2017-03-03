@@ -1400,13 +1400,13 @@ const __T1_ti_sysbios_knl_Idle_coreList ti_sysbios_knl_Idle_coreList__A[1];
     #pragma data_alignment=8
 #endif
 /* --> ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A */
-__T1_ti_sysbios_knl_Mailbox_Instance_State__allocBuf ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A[576];
+__T1_ti_sysbios_knl_Mailbox_Instance_State__allocBuf ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A[1080];
 #ifdef __ti__align
     #pragma DATA_ALIGN(ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A, 8);
 #endif
 #ifdef __GNUC__
 #ifndef __TI_COMPILER_VERSION__
-__T1_ti_sysbios_knl_Mailbox_Instance_State__allocBuf ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A[576] __attribute__ ((aligned(8)));
+__T1_ti_sysbios_knl_Mailbox_Instance_State__allocBuf ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A[1080] __attribute__ ((aligned(8)));
 #endif
 #endif
 
@@ -5216,7 +5216,7 @@ __FAR__ const ti_sysbios_knl_Mailbox_Params ti_sysbios_knl_Mailbox_Object__PARAM
 };
 
 /* --> ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A */
-__T1_ti_sysbios_knl_Mailbox_Instance_State__allocBuf ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A[576];
+__T1_ti_sysbios_knl_Mailbox_Instance_State__allocBuf ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A[1080];
 
 /* Module__root__V */
 ti_sysbios_knl_Mailbox_Module__ ti_sysbios_knl_Mailbox_Module__root__V = {
@@ -5229,9 +5229,9 @@ ti_sysbios_knl_Mailbox_Object__ ti_sysbios_knl_Mailbox_Object__table__V[1] = {
     {/* instance#0 */
         0,  /* heap */
         (xdc_SizeT)0x3c,  /* msgSize */
-        (xdc_UInt)0x8,  /* numMsgs */
+        (xdc_UInt)0xf,  /* numMsgs */
         ((xdc_Ptr)0),  /* buf */
-        (xdc_UInt)0x8,  /* numFreeMsgs */
+        (xdc_UInt)0xf,  /* numFreeMsgs */
         ((void*)ti_sysbios_knl_Mailbox_Instance_State_0_allocBuf__A),  /* allocBuf */
         {
             {
@@ -5261,7 +5261,7 @@ ti_sysbios_knl_Mailbox_Object__ ti_sysbios_knl_Mailbox_Object__table__V[1] = {
             0,  /* event */
             (xdc_UInt)0x1,  /* eventId */
             ti_sysbios_knl_Semaphore_Mode_COUNTING,  /* mode */
-            (xdc_UInt16)0x8,  /* count */
+            (xdc_UInt16)0xf,  /* count */
             {
                 {
                     ((ti_sysbios_knl_Queue_Elem*)((void*)&ti_sysbios_knl_Mailbox_Object__table__V[0].Object_field_freeSem.Object_field_pendQ.elem)),  /* next */

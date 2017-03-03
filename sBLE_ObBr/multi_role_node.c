@@ -100,15 +100,13 @@
 #define DEFAULT_CONN_LATENCY                  0
 
 // Default service discovery timer delay in ms
-#define DEFAULT_SVC_DISCOVERY_DELAY           1000
+#define DEFAULT_SVC_DISCOVERY_DELAY           500
 
 // Scan parameters
-#define DEFAULT_SCAN_DURATION                 1000
-#define DEFAULT_SCAN_WIND                     80
-#define DEFAULT_SCAN_INT                      80
+#define DEFAULT_SCAN_DURATION                 150
 
 // Maximum number of scan responses
-#define DEFAULT_MAX_SCAN_RES                  20
+#define DEFAULT_MAX_SCAN_RES                  21
 
 // TRUE to filter discovery results on desired service UUID
 #define DEFAULT_DEV_DISC_BY_SVC_UUID          TRUE
@@ -226,10 +224,10 @@ static uint8_t advertData[] =
   // Flags; this sets the device to use limited discoverable
   // mode (advertises for 30 seconds at a time) instead of general
   // discoverable mode (advertises indefinitely)
-  0x0F,   // length of this data
+  0x10,   // length of this data
   GAP_ADTYPE_FLAGS,
   DEFAULT_DISCOVERABLE_MODE | GAP_ADTYPE_FLAGS_BREDR_NOT_SUPPORTED,
-  1, // Unique ID (From)
+  4, // Unique ID (From)
   0, // 0 - 1-10, 1- Second 11-20
   0, // 1-11 RSSI
   0, // 2-12 RSSI
@@ -241,6 +239,7 @@ static uint8_t advertData[] =
   0, // 8-18 RSSI
   0, // 9-19 RSSI
   0, // 10-20 RSSI
+  1, // Channel
   26, // Identification byte
 };
 
@@ -255,6 +254,7 @@ uint8_t scanRes;
 // Number of devices rssi was captured from
 uint8_t devCount = 0;
 uint8_t offset = 0;
+uint8_t currChannel = 1;
 
 
 
@@ -457,8 +457,9 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
 				// Send observed data to base station
 				advertData[4] = devCount;
 				for(i = 5; i < 15; i++) {
-					advertData[i] = sendDevList[(i-5) + offset];
+					advertData[i] = devList[(i-5) + offset];
 				}
+				advertData[15] = currChannel;
 
 				GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
 
@@ -713,21 +714,28 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
       
     case GAP_DEVICE_INFO_EVENT:
       {
-        if(pEvent->deviceInfo.pEvtData[3] > 0 && pEvent->deviceInfo.pEvtData[15] == 26) {
-          simpleTopology_addDeviceInfo(pEvent->deviceInfo.pEvtData[3]-1, pEvent->deviceInfo.rssi);
-//          SU_printf("FROM: %d RSSI: %d\n\r",
-//                      pEvent->deviceInfo.pEvtData[3],
-//                      pEvent->deviceInfo.rssi);
+        if(pEvent->deviceInfo.pEvtData[3] > 0 && pEvent->deviceInfo.pEvtData[16] == 26 &&
+        		currChannel == pEvent->deviceInfo.pEvtData[15]) {
+			  simpleTopology_addDeviceInfo(pEvent->deviceInfo.pEvtData[3]-1, pEvent->deviceInfo.rssi);
+//	          SU_printf("FROM: %d RSSI: %d\n\r",
+//	                      pEvent->deviceInfo.pEvtData[3],
+//	                      pEvent->deviceInfo.rssi);
         } else if(pEvent->deviceInfo.pEvtData[3] == 0 && pEvent->deviceInfo.pEvtData[5] == 26) {
-          GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &pEvent->deviceInfo.pEvtData[4], NULL);
-          //SU_printf("ADV channel changed\n\r");
+        	  if(pEvent->deviceInfo.pEvtData[4] != currChannel) {
+//				  memset(sendDevList, 0, DEFAULT_MAX_SCAN_RES);
+				  memset(devList, 0, DEFAULT_MAX_SCAN_RES);
+				  GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &pEvent->deviceInfo.pEvtData[4], NULL);
+				  GAPRole_GetParameter(GAPROLE_ADV_CHANNEL_MAP, &currChannel, NULL);
+//				  SU_printf("ADV channel changed\n\r");
+        	  }
         }
       }
       break;
       
     case GAP_DEVICE_DISCOVERY_EVENT:
       {
-    	memcpy(sendDevList, devList, DEFAULT_MAX_SCAN_RES*sizeof(uint8_t));
+//		memcpy(sendDevList, devList, DEFAULT_MAX_SCAN_RES*sizeof(uint8_t));
+//		memset(devList, 0, DEFAULT_MAX_SCAN_RES);
 
 //        // discovery complete
 //        scanningStarted = FALSE;

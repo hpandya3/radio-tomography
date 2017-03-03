@@ -75,8 +75,11 @@
 /*********************************************************************
  * CONSTANTS
  */
+#define CURR_NODES							  3 // Total
+#define CURR_LINKS_ZERO						  2 // 0 - 9 (Number of nodes - 1)
+#define CURR_LINKS_ONE						  0 // 10- 19 (Number of nodes - 1)
 // Advertising interval when device is discoverable (units of 625us, 160=100ms)
-#define DEFAULT_ADVERTISING_INTERVAL          960
+#define DEFAULT_ADVERTISING_INTERVAL          160
 
 // Filter duplicate ads
 #define FILTER_ADS 							  FALSE
@@ -107,9 +110,9 @@
 #define DEFAULT_SVC_DISCOVERY_DELAY           1000
 
 // Scan parameters
-#define DEFAULT_SCAN_DURATION                 1000
-#define DEFAULT_SCAN_WIND                     1000
-#define DEFAULT_SCAN_INT                      1000
+#define DEFAULT_SCAN_DURATION                 200
+#define DEFAULT_SCAN_WIND                     200
+#define DEFAULT_SCAN_INT                      200
 
 // Maximum number of scan responses
 #define DEFAULT_MAX_SCAN_RES                  20
@@ -245,14 +248,13 @@ static uint8_t rspTxRetry = 0;
 // Scanning state
 static bool scanningStarted = TRUE;
 uint8_t scanRes;
-uint8_t delayCount = 0;
+uint8_t linkCount = 0;
 
 // Number of devices rssi was captured from
 uint8_t devCount = 0;
 uint8_t currChannel = 1;
-
-// Scan result list
-static uint8_t devList[DEFAULT_MAX_SCAN_RES];
+uint8_t gotAllNodes = 0;
+uint8_t gotNode[DEFAULT_MAX_SCAN_RES];
 
 /*********************************************************************
  * LOCAL FUNCTIONS
@@ -265,7 +267,7 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent);
 static void simpleTopology_sendAttRsp(void);
 static void simpleTopology_freeAttRsp(uint8_t status);
 static uint8_t simpleTopology_enqueueMsg(uint16_t event, uint8_t status, uint8_t *pData);
-static void simpleTopology_addDeviceInfo(uint8_t devID, int8 rssi);
+static void simpleTopology_nodeCheck(uint8_t devID, uint8_t tenth);
 static void simpleTopology_handleKeys(uint8_t shift, uint8_t keys);
 static uint8_t simpleTopology_eventCB(gapMultiRoleEvent_t *pEvent);
 static void simpleTopology_sendAttRsp(void);
@@ -419,6 +421,8 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
   // Initialize application
   simpleTopology_init();
 
+  uint8_t nodeCC, i = 0;
+
   // Application main loop
   for (;;)
   {
@@ -448,19 +452,27 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
           {
             if (pEvt->event_flag & SBT_ADV_CB_EVT)
             {
-            	delayCount += 1;
-            	if(delayCount > 1) {
-            		delayCount = 0;
-					if(currChannel >= 8) {
+            	nodeCC = 0;
+            	for(i = 0; i < DEFAULT_MAX_SCAN_RES; i++) {
+            		if(gotNode[i] == 0x03) {
+            			nodeCC++;
+            		}
+            	}
+            	if(nodeCC == CURR_NODES) {
+            		memset(gotNode, 0, DEFAULT_MAX_SCAN_RES);
+					if(currChannel >= 4) {
 					  currChannel = 1;
+					} else {
+					  currChannel *= 2;
 					}
 
 					// Send channel change
 					advertData[4] = currChannel;
 					GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &currChannel, NULL);
 					GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
-					currChannel *= 2;
-                }
+
+					SU_printf("Channel changed\r\n");
+            	}
             }
           }
           else
@@ -705,9 +717,10 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
       
     case GAP_DEVICE_INFO_EVENT:
       {
-    	  if(pEvent->deviceInfo.pEvtData[15] == 26) {
+    	  uint8_t i;
+    	  if(pEvent->deviceInfo.pEvtData[16] == 26) {
 			  SU_printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n\r",
-				currChannel/2,
+				pEvent->deviceInfo.pEvtData[15],
 				pEvent->deviceInfo.pEvtData[3],
 				pEvent->deviceInfo.pEvtData[4],
 				pEvent->deviceInfo.pEvtData[5],
@@ -720,7 +733,21 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
 				pEvent->deviceInfo.pEvtData[12],
 				pEvent->deviceInfo.pEvtData[13],
 				pEvent->deviceInfo.pEvtData[14]);
-    	 }
+			  // Check if all the RSSIs are valid (does not equal to zero)
+			  linkCount = 0;
+			  for(i = 5; i < 15; i++) {
+				  if(pEvent->deviceInfo.pEvtData[i] > 0) {
+					  linkCount++;
+				  }
+			  }
+			  if(currChannel == pEvent->deviceInfo.pEvtData[15]) {
+				  if((linkCount >= CURR_LINKS_ZERO && pEvent->deviceInfo.pEvtData[4] == 0) ||
+						  (linkCount >= CURR_LINKS_ONE && pEvent->deviceInfo.pEvtData[4] == 1)) {
+					  simpleTopology_nodeCheck(pEvent->deviceInfo.pEvtData[3],
+							  pEvent->deviceInfo.pEvtData[4]);
+				  }
+			  }
+    	  }
       }
       break;
       
@@ -845,13 +872,22 @@ static void simpleTopology_handleKeys(uint8_t shift, uint8_t keys)
  *
  * @return  none
  */
-static void simpleTopology_addDeviceInfo(uint8_t devID, int8 rssi)
+static void simpleTopology_nodeCheck(uint8_t devID, uint8_t tenth)
 {
   // If result count not at max
   if (devID < DEFAULT_MAX_SCAN_RES)
   {
-    // Add rssi to list
-    devList[devID] = rssi + 128;
+	if(gotNode[devID] != 0x03) {
+		if(tenth == 0 && gotNode[devID] != 0x01) {
+			gotNode[devID] |= 0x01;
+		} else if(tenth == 1 && gotNode[devID] != 0x02) {
+			gotNode[devID] |= 0x02;
+		} else if(tenth == 2) {
+			gotNode[devID] |= 0x04;
+		} else if(tenth == 3) {
+			gotNode[devID] |= 0x08;
+		}
+	}
   }
 }
 
