@@ -62,6 +62,10 @@
 	// Serial coms
 	var currPort;
 
+	// All links updated check
+	var allLinkCheck;
+	global.chnChanged = 0;
+
 	// Scanning and channels
 	global.chnChange = 0;
 	global.scans = 0;
@@ -73,18 +77,24 @@
 
 	function onOpen() {
 		console.log("Base station connected");
+		console.time('scan');
 	}
 
 	function onData(data) {
-		console.log(data);
+		//console.log(data);
 		var listRSS = data.split(',');
-		if(listRSS.length == 13) {
+		if(listRSS.length == 13 && !allLinkCheck) {
 			if(global.scans < global.calibrationScans) { // Calibrate
-				backProj.updateLinks(listRSS, true);
+				allLinkCheck = backProj.updateLinks(listRSS, true);
 			} else {
-				backProj.updateLinks(listRSS, false);
+				allLinkCheck = backProj.updateLinks(listRSS, false);
 			}
-		} else if(data.trim() == "Channel changed") {
+			if(allLinkCheck) {
+				channelChange();
+			}
+		} else if(data.trim() == "chnchange") {
+			allLinkCheck = false;
+			backProj.resetLinks();
 			global.chnChange++;
 			console.log("Progress " +  global.chnChange + "/3");
 			if(global.chnChange == 3) {
@@ -94,11 +104,20 @@
 					console.log("Calibration completed");
 				} else {
 					console.log("Scan completed: ", global.scans);
+					console.timeEnd('scan');
+					console.time('scan');
 				}
 				var wMat = backProj.projection;
 				updateColor(wMat);
 			}
 		}
+	}
+
+	function channelChange() {
+		currPort.write("c", function () {
+			currPort.drain();
+			return;
+		});
 	}
 
 	function initUSB() {

@@ -255,6 +255,8 @@ uint8_t devCount = 0;
 uint8_t currChannel = 1;
 uint8_t gotAllNodes = 0;
 uint8_t gotNode[DEFAULT_MAX_SCAN_RES];
+uint8_t nodeCC = 0;
+uint8_t chngChan = 0;
 
 /*********************************************************************
  * LOCAL FUNCTIONS
@@ -310,6 +312,10 @@ void SimpleTopology_createTask(void)
   taskParams.priority = SBT_TASK_PRIORITY;
 
   Task_construct(&sbmTask, simpleTopology_taskFxn, &taskParams, NULL);
+}
+
+void changeChannel(void) {
+	chngChan = 1;
 }
 
 /*********************************************************************
@@ -421,8 +427,6 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
   // Initialize application
   simpleTopology_init();
 
-  uint8_t nodeCC, i = 0;
-
   // Application main loop
   for (;;)
   {
@@ -452,14 +456,26 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
           {
             if (pEvt->event_flag & SBT_ADV_CB_EVT)
             {
-            	nodeCC = 0;
-            	for(i = 0; i < DEFAULT_MAX_SCAN_RES; i++) {
-            		if(gotNode[i] == 0x03) {
-            			nodeCC++;
-            		}
-            	}
-            	if(nodeCC == CURR_NODES) {
-            		memset(gotNode, 0, DEFAULT_MAX_SCAN_RES);
+//            	if(nodeCC == CURR_NODES) {
+//            		nodeCC = 0;
+//            		memset(gotNode, 0, DEFAULT_MAX_SCAN_RES);
+//					if(currChannel >= 4) {
+//					  currChannel = 1;
+//					} else {
+//					  currChannel *= 2;
+//					}
+//
+//					// Send channel change
+//					advertData[4] = currChannel;
+//					GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &currChannel, NULL);
+//					GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
+//
+//					SU_printf("Channel changed\r\n");
+//            	}
+
+            	if(chngChan == 1) {
+            		chngChan = 0;
+					//memset(gotNode, 0, DEFAULT_MAX_SCAN_RES);
 					if(currChannel >= 4) {
 					  currChannel = 1;
 					} else {
@@ -471,8 +487,8 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
 					GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &currChannel, NULL);
 					GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
 
-					SU_printf("Channel changed\r\n");
-            	}
+					SU_printf("chnchange\r\n");
+				}
             }
           }
           else
@@ -718,7 +734,7 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
     case GAP_DEVICE_INFO_EVENT:
       {
     	  uint8_t i;
-    	  if(pEvent->deviceInfo.pEvtData[16] == 26) {
+    	  if(pEvent->deviceInfo.pEvtData[16] == 26 && currChannel == pEvent->deviceInfo.pEvtData[15]) {
 			  SU_printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n\r",
 				pEvent->deviceInfo.pEvtData[15],
 				pEvent->deviceInfo.pEvtData[3],
@@ -733,26 +749,31 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
 				pEvent->deviceInfo.pEvtData[12],
 				pEvent->deviceInfo.pEvtData[13],
 				pEvent->deviceInfo.pEvtData[14]);
-			  // Check if all the RSSIs are valid (does not equal to zero)
-			  linkCount = 0;
-			  for(i = 5; i < 15; i++) {
-				  if(pEvent->deviceInfo.pEvtData[i] > 0) {
-					  linkCount++;
-				  }
-			  }
-			  if(currChannel == pEvent->deviceInfo.pEvtData[15]) {
-				  if((linkCount >= CURR_LINKS_ZERO && pEvent->deviceInfo.pEvtData[4] == 0) ||
-						  (linkCount >= CURR_LINKS_ONE && pEvent->deviceInfo.pEvtData[4] == 1)) {
-					  simpleTopology_nodeCheck(pEvent->deviceInfo.pEvtData[3],
-							  pEvent->deviceInfo.pEvtData[4]);
-				  }
-			  }
+//			  // Check if all the RSSIs are valid (does not equal to zero)
+//			  linkCount = 0;
+//			  for(i = 5; i < 15; i++) {
+//				  if(pEvent->deviceInfo.pEvtData[i] > 0) {
+//					  linkCount++;
+//				  }
+//			  }
+//			  if((linkCount >= CURR_LINKS_ZERO && pEvent->deviceInfo.pEvtData[4] == 0) ||
+//					  (linkCount >= CURR_LINKS_ONE && pEvent->deviceInfo.pEvtData[4] == 1)) {
+//				  simpleTopology_nodeCheck(pEvent->deviceInfo.pEvtData[3],
+//						  pEvent->deviceInfo.pEvtData[4]);
+//			  }
     	  }
       }
       break;
       
     case GAP_DEVICE_DISCOVERY_EVENT:
       {
+//    	uint8_t i;
+//    	nodeCC = 0;
+//		for(i = 0; i < DEFAULT_MAX_SCAN_RES; i++) {
+//			if(gotNode[i] == 0x03) {
+//				nodeCC++;
+//			}
+//		}
     	// Restart discovery
 		GAPRole_StartDiscovery(DEFAULT_DISCOVERY_MODE,
 							 DEFAULT_DISCOVERY_ACTIVE_SCAN,

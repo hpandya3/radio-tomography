@@ -27,6 +27,7 @@ class Link {
 			if(this.attnFour > 0) {
 				this.attnFour = 0;
 			}
+
 		}
 	}
 
@@ -38,6 +39,7 @@ class Link {
 		} else if(chn == 4) {	// Channel: 39
 			this.staticLossFour = l;
 		}
+		// Find the minimum of attenuation (Assuming minimum fading loss)
 		this.staticLossLow = Math.max(this.staticLossOne, this.staticLossTwo, this.staticLossFour);
 	}
 

@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "simple_UART.h"
+#include "multi_role.h"
 
 #define TIMEOUT			10  /* timeout, in system ticks */
 #define TASKSTACKSIZE   768
@@ -38,6 +39,7 @@ typedef struct MsgObj {
  */
 void echoFxn(UArg arg0, UArg arg1)
 {
+	char input;
     MsgObj msg;
     UART_Handle uart;
     UART_Params uartParams;
@@ -47,6 +49,7 @@ void echoFxn(UArg arg0, UArg arg1)
     UART_Params_init(&uartParams);
     uartParams.writeDataMode = UART_DATA_BINARY;
     uartParams.readDataMode = UART_DATA_BINARY;
+    uartParams.readTimeout = 1;
     uartParams.readReturnMode = UART_RETURN_FULL;
     uartParams.readEcho = UART_ECHO_OFF;
     uartParams.baudRate = 115200;
@@ -63,6 +66,11 @@ void echoFxn(UArg arg0, UArg arg1)
     	/* wait for mailbox to be posted by writer() */
 		if (Mailbox_pend(mbx0, &msg, TIMEOUT) == 1) {
 			UART_write(uart, msg.printstr, msg.charlen);
+		}
+		UART_read(uart, &input, 1);
+		if(input == 'c') {
+			input = 0;
+			changeChannel();
 		}
     }
 }

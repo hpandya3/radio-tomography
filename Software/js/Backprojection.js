@@ -5,6 +5,8 @@ class Backprojection {
 		// Total number of unique links
 		this.numLinks = (Math.pow(numNodes, 2) - numNodes)/2;
 		this.linkArray = [];
+		this.linkSetCheck = [];
+		this.linksSet = 0;
 		this.linkLUT = [];
 		var r, b, l = 0;
 		for(r = 1; r < numNodes; r++) {
@@ -53,7 +55,9 @@ class Backprojection {
 				var attn = data[i+3] - 128;
 				var linkIndex = this.getLinkIndex([Math.min(nodeID, to), 
 				Math.max(nodeID, to)]);
-				if(linkIndex > -1) {
+				if(linkIndex > -1 && this.linkSetCheck.indexOf(linkIndex) == -1) {
+					this.linkSetCheck.push(linkIndex);
+					this.linksSet++;
 					if(calibration == true) {
 						this.linkArray[linkIndex].setStaticLoss(attn, chn);
 					} else {
@@ -62,6 +66,16 @@ class Backprojection {
 				}
 			}
 		}
+		if(this.linksSet == this.numLinks) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	resetLinks() {
+		this.linkSetCheck = [];
+		this.linksSet = 0;
 	}
 
 	// Returns the link index
