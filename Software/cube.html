@@ -41,15 +41,21 @@
 	var widthM = 2.7;
 	var heightM = 2.6;
 
+	// Format [width, height, length]
+	var nodePos = nj.array([[1.35, 1.3, 0.02], 	// 1 
+							[0.02, 1.3, 1.5], 	// 2 
+							[1.35, 1.3, 3]]); 	// 3
+
 	// Ratio
-	var voxelRatio = 0.2; // meter per voxel
+	var voxelRatio = 0.1; // meter per voxel
 
 	// Dimensions in voxels
 	var heightV = Math.round(heightM/voxelRatio);
 	var lengthV = Math.round(lengthM/voxelRatio);
 	var widthV = Math.round(widthM/voxelRatio);
+	console.log(lengthV, widthV, heightV);
 
-	var dim = {x:lengthV, y:widthV , z:heightV};
+	var dim = {x:widthV, y:heightV , z:lengthV};
 	var scene,
 		renderer,
 		cubeGroup,
@@ -216,8 +222,14 @@
 		// Setup listener
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		// Setup voxel traversal algorithm
-		backProj = new Backprojection(getNodes());
+		// Setup backproj
+		// backProj = new Backprojection(nodePos);
+		
+		// Test VoxelTraversal
+		var nodesArray = getNodes().tolist();
+		var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[2], .25);
+		var wMat = voxelTrav.voxelSet;
+		updateColor(wMat);
 	}
 
 	function onWindowResize() {
@@ -225,6 +237,21 @@
 		camera.updateProjectionMatrix();
 		renderer.setPixelRatio( window.devicePixelRatio );
 		renderer.setSize( window.innerWidth, window.innerHeight );
+	}
+
+	function getNodes() {
+		var nodeNum, axis, meas;
+		var nodes = nj.Array
+		for(nodeNum = 0; nodeNum < nodePos.shape[0]; nodeNum++) {
+			for(axis = 0; axis < 3; axis++) {
+				meas = Math.round(nodePos.get(nodeNum, axis)/voxelRatio);
+				if(meas == 0) {
+					meas = 1;
+				}
+				nodePos.set(nodeNum, axis, meas)
+			}
+		}
+		return nodePos;
 	}
 
 	function createRandData() {
@@ -269,12 +296,7 @@
 		return opacity;
 	}
 
-	function getNodes() {
-		// Format [length, height, width]
-		var nodePos = nj.array([[8, 7, 1], [1, 7, 7], 
-							[8, 7, 14]]);
-		return nodePos;
-	}
+		
 
 	function clearVerticalBorder(data) {
 		for(posx = 1; posx <= dim["x"]; posx++) {
@@ -292,7 +314,7 @@
 
 	function updateColor(data) {
 		// Max value
-		var min = -20; // Subject to change
+		var min = data.max(); // Subject to change
 		//console.log("Max", data);
 
 		// Change color
