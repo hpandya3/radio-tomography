@@ -74,8 +74,14 @@
 /*********************************************************************
  * CONSTANTS
  */
+const uint8_t nodeNum = 15;
+#define NODENUM								  nodeNum
 // Advertising interval when device is discoverable (units of 625us, 160=100ms)
-#define DEFAULT_ADVERTISING_INTERVAL          160
+#define DEFAULT_ADVERTISING_INTERVAL		  (320 + (16 * (20-nodeNum)))
+//(160 + (16 * nodeNum))
+
+// Filter duplicate ads
+#define FILTER_ADS 							  TRUE
 
 // Limited discoverable mode advertises for 30.72s, and then stops
 // General discoverable mode advertises indefinitely
@@ -100,10 +106,12 @@
 #define DEFAULT_CONN_LATENCY                  0
 
 // Default service discovery timer delay in ms
-#define DEFAULT_SVC_DISCOVERY_DELAY           500
+#define DEFAULT_SVC_DISCOVERY_DELAY           900
 
 // Scan parameters
-#define DEFAULT_SCAN_DURATION                 150
+#define DEFAULT_SCAN_DURATION                 300
+#define DEFAULT_SCAN_WIND                     150
+#define DEFAULT_SCAN_INT                      300
 
 // Maximum number of scan responses
 #define DEFAULT_MAX_SCAN_RES                  21
@@ -227,7 +235,7 @@ static uint8_t advertData[] =
   0x10,   // length of this data
   GAP_ADTYPE_FLAGS,
   DEFAULT_DISCOVERABLE_MODE | GAP_ADTYPE_FLAGS_BREDR_NOT_SUPPORTED,
-  4, // Unique ID (From)
+  NODENUM, // Unique ID (From)
   0, // 0 - 1-10, 1- Second 11-20
   0, // 1-11 RSSI
   0, // 2-12 RSSI
@@ -239,7 +247,6 @@ static uint8_t advertData[] =
   0, // 8-18 RSSI
   0, // 9-19 RSSI
   0, // 10-20 RSSI
-  1, // Channel
   26, // Identification byte
 };
 
@@ -252,15 +259,15 @@ static uint8_t rspTxRetry = 0;
 uint8_t scanRes;
 
 // Number of devices rssi was captured from
+uint8_t devCountOff = 0;
+uint8_t lastDevCountOff = 1;
 uint8_t devCount = 0;
+uint8_t lastdevCount = 0;
 uint8_t offset = 0;
-uint8_t currChannel = 1;
-
-
+uint8_t offsetChange = 0;
 
 // Scan result list
 static uint8_t devList[DEFAULT_MAX_SCAN_RES];
-static uint8_t sendDevList[DEFAULT_MAX_SCAN_RES];
 
 /*********************************************************************
  * LOCAL FUNCTIONS
@@ -278,6 +285,7 @@ static void simpleTopology_handleKeys(uint8_t shift, uint8_t keys);
 static uint8_t simpleTopology_eventCB(gapMultiRoleEvent_t *pEvent);
 static void simpleTopology_sendAttRsp(void);
 static void simpleTopology_freeAttRsp(uint8_t status);
+static uint8_t getDevCount(void);
 
 void simpleTopology_startDiscHandler(UArg a0);
 void simpleTopology_keyChangeHandler(uint8 keysPressed);
@@ -318,6 +326,10 @@ void SimpleTopology_createTask(void)
   Task_construct(&sbmTask, simpleTopology_taskFxn, &taskParams, NULL);
 }
 
+void changeOffset(uint8_t offs) {
+	// Do nothing
+}
+
 /*********************************************************************
  * @fn      simpleTopology_init
  *
@@ -353,7 +365,7 @@ static void simpleTopology_init(void)
   // Setup the GAP Broadcaster Role Profile
     {
       // For all hardware platforms, device starts advertising upon initialization
-      uint8_t advertising_enable = TRUE;
+      uint8_t advert_enable = TRUE;
 
       // By setting this to zero, the device will go into the waiting state after
       // being discoverable for 30.72 second, and will not being advertising again
@@ -361,11 +373,12 @@ static void simpleTopology_init(void)
       uint16_t gapRole_AdvertOffTime = 0;
 
       uint8_t advType = GAP_ADTYPE_ADV_NONCONN_IND; // use scannable undirected adv
-      uint8_t advChan = GAP_ADVCHAN_37;
+      uint8_t advChan = GAP_ADVCHAN_ALL;
 
       // Set the GAP Role Parameters
       GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof(uint8_t),
-                                 &advertising_enable, NULL);
+                                 &advert_enable, NULL);
+      HCI_EXT_SetTxPowerCmd(HCI_EXT_TX_POWER_4_DBM);
       GAPRole_SetParameter(GAPROLE_ADVERT_OFF_TIME, sizeof(uint16_t),
                            &gapRole_AdvertOffTime, NULL);
 
@@ -397,13 +410,20 @@ static void simpleTopology_init(void)
 	// Setup GAP - Observer
 	GAP_SetParamValue(TGAP_GEN_DISC_SCAN, DEFAULT_SCAN_DURATION);
 	GAP_SetParamValue(TGAP_LIM_DISC_SCAN, DEFAULT_SCAN_DURATION);
+	GAP_SetParamValue(TGAP_FILTER_ADV_REPORTS, FILTER_ADS);
+	GAP_SetParamValue(TGAP_GEN_DISC_SCAN_INT, DEFAULT_SCAN_INT);
+	GAP_SetParamValue(TGAP_GEN_DISC_SCAN_WIND, DEFAULT_SCAN_WIND);
+	GAP_SetParamValue(TGAP_LIM_DISC_SCAN_INT, DEFAULT_SCAN_INT);
+	GAP_SetParamValue(TGAP_LIM_DISC_SCAN_WIND, DEFAULT_SCAN_WIND);
 
 	// Start the Device
 	VOID GAPRole_StartDevice(&simpleTopology_gapRoleCBs);
 
-	GAPRole_StartDiscovery(DEFAULT_DISCOVERY_MODE,
-							 DEFAULT_DISCOVERY_ACTIVE_SCAN,
-							 DEFAULT_DISCOVERY_WHITE_LIST);
+	if (nodeNum != 20) {
+		GAPRole_StartDiscovery(DEFAULT_DISCOVERY_MODE,
+								 DEFAULT_DISCOVERY_ACTIVE_SCAN,
+								 DEFAULT_DISCOVERY_WHITE_LIST);
+	}
 
 	// Callback for advertising completed to dynamically update
 	// broadcast data
@@ -423,7 +443,7 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
 {
   // Initialize application
   simpleTopology_init();
-  uint8_t i;
+  uint8_t i, advert_enable;
 
   // Application main loop
   for (;;)
@@ -455,21 +475,12 @@ static void simpleTopology_taskFxn(UArg a0, UArg a1)
             if (pEvt->event_flag & SBT_ADV_CB_EVT)
             {
 				// Send observed data to base station
-				advertData[4] = devCount;
+				advertData[4] = devCountOff;
 				for(i = 5; i < 15; i++) {
 					advertData[i] = devList[(i-5) + offset];
 				}
-				advertData[15] = currChannel;
 
 				GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
-
-				devCount += 1;
-				offset += 10;
-				if(offset >= 20) {
-					//SU_printf("Finished broadcasting RSSIs\n\r");
-					devCount = 0;
-					offset = 0;
-				}
             }
           }
         else
@@ -714,41 +725,29 @@ static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
       
     case GAP_DEVICE_INFO_EVENT:
       {
-        if(pEvent->deviceInfo.pEvtData[3] > 0 && pEvent->deviceInfo.pEvtData[16] == 26 &&
-        		currChannel == pEvent->deviceInfo.pEvtData[15]) {
+        if(pEvent->deviceInfo.pEvtData[3] > 0 && pEvent->deviceInfo.pEvtData[15] == 26) {
+        	if (pEvent->deviceInfo.rssi != -128) {
 			  simpleTopology_addDeviceInfo(pEvent->deviceInfo.pEvtData[3]-1, pEvent->deviceInfo.rssi);
 //	          SU_printf("FROM: %d RSSI: %d\n\r",
 //	                      pEvent->deviceInfo.pEvtData[3],
 //	                      pEvent->deviceInfo.rssi);
+        	}
         } else if(pEvent->deviceInfo.pEvtData[3] == 0 && pEvent->deviceInfo.pEvtData[5] == 26) {
-        	  if(pEvent->deviceInfo.pEvtData[4] != currChannel) {
-//				  memset(sendDevList, 0, DEFAULT_MAX_SCAN_RES);
-				  memset(devList, 0, DEFAULT_MAX_SCAN_RES);
-				  GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &pEvent->deviceInfo.pEvtData[4], NULL);
-				  GAPRole_GetParameter(GAPROLE_ADV_CHANNEL_MAP, &currChannel, NULL);
-//				  SU_printf("ADV channel changed\n\r");
-        	  }
+        	devCountOff = pEvent->deviceInfo.pEvtData[4];
+        	if (devCountOff == 1 || devCountOff == 0) {
+        		offset = devCountOff*10;
+        	}
         }
       }
       break;
       
     case GAP_DEVICE_DISCOVERY_EVENT:
       {
-//		memcpy(sendDevList, devList, DEFAULT_MAX_SCAN_RES*sizeof(uint8_t));
-//		memset(devList, 0, DEFAULT_MAX_SCAN_RES);
-
-//        // discovery complete
-//        scanningStarted = FALSE;
-
-//		// Copy results
-//		scanRes = pEvent->discCmpl.numDevs;
-//        SU_printf("Devices Found %d\n\r", scanRes);
-
         // Restart discovery
 		GAPRole_StartDiscovery(DEFAULT_DISCOVERY_MODE,
-								 DEFAULT_DISCOVERY_ACTIVE_SCAN,
-								 DEFAULT_DISCOVERY_WHITE_LIST);
-//		scanningStarted = TRUE;
+							 DEFAULT_DISCOVERY_ACTIVE_SCAN,
+							 DEFAULT_DISCOVERY_WHITE_LIST);
+
       }
       break;
 
@@ -867,6 +866,17 @@ static void simpleTopology_addDeviceInfo(uint8_t devID, int8 rssi)
     // Add rssi to list
     devList[devID] = rssi + 128;
   }
+}
+
+static uint8_t getDevCount(void) {
+	uint8_t i;
+	uint8_t count = 0;
+	for(i = 0; i < DEFAULT_MAX_SCAN_RES; i++) {
+		if (devList[i] > 0) {
+			count++;
+		}
+	}
+	return count;
 }
 
 /*********************************************************************

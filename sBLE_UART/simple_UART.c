@@ -68,10 +68,12 @@ void echoFxn(UArg arg0, UArg arg1)
 			UART_write(uart, msg.printstr, msg.charlen);
 		}
 		UART_read(uart, &input, 1);
-		if(input == 'c') {
-			input = 0;
-			changeChannel();
+		if(input == '0') {
+			changeOffset(0);
+		} else if(input == '1') {
+			changeOffset(1);
 		}
+		input = 0;
     }
 }
 

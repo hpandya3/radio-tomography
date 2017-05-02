@@ -22,12 +22,134 @@
 			overflow: hidden;   /* Disable scrollbars */
 			z-index: -1;
 		}
+		.box {
+			width:0px;
+			height:20px;
+			background:#0f0;
+		}
+
+		td, th {
+			background:#FFF;
+		}
 	</style>
 
 </head>
 
 <body>
-
+	<!-- Table to show node statuses -->
+	<table style=”float:right; margin-left:10px;”>
+	  <tr>
+	    <th>Node</th>
+	    <th>Status</th>
+	    <th>Packet Loss</th>
+	  </tr>
+	  <tr>
+	    <td>1</td>
+	    <td style="min-width:80px"><div id="1" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p1" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>2</td>
+	    <td style="min-width:80px"><div id="2" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p2" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>3</td>
+	    <td style="min-width:80px"><div id="3" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p3" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>4</td>
+	    <td style="min-width:80px"><div id="4" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p4" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>5</td>
+	    <td style="min-width:80px"><div id="5" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p5" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>6</td>
+	    <td style="min-width:80px"><div id="6" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p6" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>7</td>
+	    <td style="min-width:80px"><div id="7" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p7" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>8</td>
+	    <td style="min-width:80px"><div id="8" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p8" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>9</td>
+	    <td style="min-width:80px"><div id="9" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p9" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>10</td>
+	    <td style="min-width:80px"><div id="10" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p10" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>11</td>
+	    <td style="min-width:80px"><div id="11" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p11" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>12</td>
+	    <td style="min-width:80px"><div id="12" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p12" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>13</td>
+	    <td style="min-width:80px"><div id="13" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p13" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>14</td>
+	    <td style="min-width:80px"><div id="14" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p14" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>15</td>
+	    <td style="min-width:80px"><div id="15" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p15" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>16</td>
+	    <td style="min-width:80px"><div id="16" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p16" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>17</td>
+	    <td style="min-width:80px"><div id="17" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p17" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>18</td>
+	    <td style="min-width:80px"><div id="18" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p18" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>19</td>
+	    <td style="min-width:80px"><div id="19" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p19" class="box"></div></td>
+	  </tr>
+	  <tr>
+	    <td>20</td>
+	    <td style="min-width:80px"><div id="20" class="box"></div></td>
+	    <td style="min-width:80px"><div id="p20" class="box"></div></td>
+	  </tr>
+	</table>
+	<table style=”float:right; margin-left:10px;”>
+	  <tr>
+	    <td>Scan</td>
+	    <td style="min-width:80px"><p id="scan_num">0</p></td>
+	  </tr>
+	</table>
 	<script type="text/javascript" src="js/three.js"></script>
 	<script type="text/javascript" src="js/OrbitControls.js"></script>
 	<script type="text/javascript" src="js/numjs.min.js"></script>
@@ -37,15 +159,26 @@
 	<script>
 
 	// Dimensions of the room in meters
-	var lengthM = 3;
-	var widthM = 2.7;
+	var lengthM = 0.95;
+	var widthM = 0.965;
 	var heightM = 2.6;
 
 	// Format [width, height, length]
-	var nodePos = nj.array([[1.35, 1.3, 0.02], 	// 1 
-							[0.02, 1.3, 1.5], 	// 2 
-							[1.35, 1.3, 3]]); 	// 3
-
+	var nodePos = nj.array([[0, 0.02, 0], 								// 1  //
+							[(widthM/2), 0.02, 0], 						// 2   /
+							[widthM, 0.02, 0],							// 3   / Side One
+							[0, 1.5, 0], 								// 4   /
+							[(widthM/2), 1.5, 0],						// 5   /
+							[widthM, 1.5, 0], 							// 6  //
+							[0, 1.5, lengthM], 							// 7  //
+							[(widthM/2), 1.5, lengthM], 				// 8   /
+							[widthM, 1.5, lengthM],						// 9   / Side Two
+							[0, 0.02, lengthM], 						// 10  /
+							[(widthM/2), 0.02, lengthM],				// 11  /
+							[widthM, 0.02, lengthM], 					// 12 //
+							]); 	
+	var numNodes = nodePos.shape[0];
+								
 	// Ratio
 	var voxelRatio = 0.1; // meter per voxel
 
@@ -70,12 +203,11 @@
 
 	// All links updated check
 	var allLinkCheck;
-	global.chnChanged = 0;
 
 	// Scanning and channels
-	global.chnChange = 0;
 	global.scans = 0;
 	global.calibrationScans = 2;
+	global.dataCount = 0;
 
 	initUSB();
 	init();
@@ -83,44 +215,60 @@
 
 	function onOpen() {
 		console.log("Base station connected");
+		offsetChangeZero();
 		console.time('scan');
 	}
 
 	function onData(data) {
-		//console.log(data);
+		// console.log(data);
+
 		var listRSS = data.split(',');
-		if(listRSS.length == 13 && !allLinkCheck) {
+
+		if(listRSS.length == 12 && allLinkCheck != -1) {
+			global.dataCount++;
 			if(global.scans < global.calibrationScans) { // Calibrate
-				allLinkCheck = backProj.updateLinks(listRSS, true);
+				allLinkCheck = global.backProj.updateLinks(listRSS, true);
 			} else {
-				allLinkCheck = backProj.updateLinks(listRSS, false);
+				allLinkCheck = global.backProj.updateLinks(listRSS, false);
 			}
-			if(allLinkCheck) {
-				channelChange();
+
+			if(allLinkCheck == -1) {
+				offsetChangeZero();
+			} else if(allLinkCheck == 1) {
+				offsetChangeOne();
 			}
-		} else if(data.trim() == "chnchange") {
-			allLinkCheck = false;
-			backProj.resetLinks();
-			global.chnChange++;
-			console.log("Progress " +  global.chnChange + "/3");
-			if(global.chnChange == 3) {
-				global.chnChange = 0;
-				global.scans++;
-				if(global.scans == global.calibrationScans) {
-					console.log("Calibration completed");
-				} else {
-					console.log("Scan completed: ", global.scans);
-					console.timeEnd('scan');
-					console.time('scan');
-				}
-				var wMat = backProj.projection;
+			var status = global.backProj.getNodeStatus();
+			var packetl = global.backProj.getNodeCount();
+			updateNodeStatus(status);
+			updateNodePacketLoss(packetl);
+		} else if(data.trim() == "Scan Complete" && allLinkCheck == -1) {
+			allLinkCheck = 0;
+			global.backProj.resetLinks();
+			global.scans++;
+			// Calibration check
+			if(global.scans == global.calibrationScans) {
+				console.log("Calibration completed");
+			} else {
+				// Update visuals
+				var wMat = global.backProj.projection;
 				updateColor(wMat);
-			}
+				console.log("Scan completed: ", global.scans);
+				console.timeEnd('scan');
+				console.time('scan');
+				updateScans(global.scans, wMat);
+			}			
 		}
 	}
 
-	function channelChange() {
-		currPort.write("c", function () {
+	function offsetChangeOne() {
+		currPort.write("1", function () {
+			currPort.drain();
+			return;
+		});
+	}
+
+	function offsetChangeZero() {
+		currPort.write("0", function () {
 			currPort.drain();
 			return;
 		});
@@ -223,13 +371,18 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		// Setup backproj
-		// backProj = new Backprojection(nodePos);
-		
+		global.backProj = new Backprojection(getNodes());
+
+		// Test Save
+		// randomData = createRandData();
+		// updateColor(randomData);
+		// saveSpace(randomData, "frame1");
+		// openSpace("standing6");
 		// Test VoxelTraversal
-		var nodesArray = getNodes().tolist();
-		var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[2], .25);
-		var wMat = voxelTrav.voxelSet;
-		updateColor(wMat);
+		// var nodesArray = getNodes().tolist();
+		// var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[2], .25);
+		// var wMat = voxelTrav.voxelSet;
+		// updateColor(wMat);
 	}
 
 	function onWindowResize() {
@@ -241,7 +394,6 @@
 
 	function getNodes() {
 		var nodeNum, axis, meas;
-		var nodes = nj.Array
 		for(nodeNum = 0; nodeNum < nodePos.shape[0]; nodeNum++) {
 			for(axis = 0; axis < 3; axis++) {
 				meas = Math.round(nodePos.get(nodeNum, axis)/voxelRatio);
@@ -254,19 +406,43 @@
 		return nodePos;
 	}
 
-	function createRandData() {
-		var data = [];
-		var numNodes = getNodes().shape[0];
-		var len = (Math.pow(numNodes, 2) - numNodes)/2;
-		for(i = 0; i < len; i++) {
-			if(i % 2 == 0) {
-				data[i] = getRandom()*100;	
-			} else {
-				data[i] = 0;
-			}
-			
+	function updateNodeStatus(nodeStatus) {
+		for(var key in nodeStatus) {
+			percent = 80*(nodeStatus[key]/20);
+			percentPixels = percent.toString() + 'px';
+			document.getElementById(key).style.width = percentPixels;
 		}
-		return data;
+	}
+
+	function updateNodePacketLoss(nodeCount) {
+		avgPacketsRecv = global.dataCount/numNodes;
+		for(var key in nodeCount) {
+			percent = 80*(nodeCount[key]/avgPacketsRecv);
+			if (percent > 80) {
+				percent = 80;
+			}
+			percentPixels = percent.toString() + 'px';
+			document.getElementById(key).style.width = percentPixels;
+		}
+	}
+
+	function updateScans(scan_num, matrix) {
+		scans = scan_num.toString();
+		document.getElementById("scan_num").innerHTML = scans;
+		// saveSpace(matrix, "standing" + scans)
+	}
+
+	function createRandData() {
+		var data = nj.zeros([dim["x"], dim["y"], dim["z"]]);
+		for(posx = 1; posx <= dim["x"]; posx++) {
+			for(posy = 1; posy <= dim["y"]; posy++) {
+				for(posz = 1; posz <= dim["z"]; posz++) {
+					r = getRandom()*-20;
+					data.set(posy, posx, posz, r);
+				}
+			}
+		}
+		return data;			
 	}
 
 	function getRandom() {
@@ -296,8 +472,6 @@
 		return opacity;
 	}
 
-		
-
 	function clearVerticalBorder(data) {
 		for(posx = 1; posx <= dim["x"]; posx++) {
 			for(posy = 1; posy <= dim["y"]; posy++) {
@@ -312,11 +486,46 @@
 		return data;
 	}
 
+	// Save the frame
+	function saveSpace(data, filename) {
+		dataArr = data.tolist();
+		require('fs').writeFile(
+		    './' + filename + '.json',
+
+		    JSON.stringify(dataArr),
+
+		    function (err) {
+		        if (err) {
+		            console.error('Space write error!');
+		        }
+		    }
+		);
+	}
+
+	// Open a frame
+	function openSpace(filename) {
+		fs = require('fs');
+		filenameStr = './' + filename + '.json';
+		fs.readFile(filenameStr, function read(err, data) {
+		    if (err) {
+		        throw err;
+		    }
+		    dataArr = JSON.parse(data);
+		    content = nj.array(dataArr);
+		    updateColor(content);   // Update the visual
+		});
+	}
+
 	function updateColor(data) {
 		// Max value
-		var min = data.max(); // Subject to change
-		//console.log("Max", data);
-
+		var min = data.min(); 
+		if (min == 0) {
+			min = -1;
+		}
+		if (min > -20) {
+			min = -20;
+		}
+		console.log(min);
 		// Change color
 		for(i = 0; i < cubeGroup.children.length; i++) {
 			// Get cube position

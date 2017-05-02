@@ -1,0 +1,874 @@
+/******************************************************************************
+ * @file  simple_ble_topology.c
+ *
+ * @description Application task for the Simple Topology example
+ *
+ *
+ * Copyright (C) 2015 Texas Instruments Incorporated - http://www.ti.com/ 
+ * 
+ * 
+ *  Redistribution and use in source and binary forms, with or without 
+ *  modification, are permitted provided that the following conditions 
+ *  are met:
+ *
+ *    Redistributions of source code must retain the above copyright 
+ *    notice, this list of conditions and the following disclaimer.
+ *
+ *    Redistributions in binary form must reproduce the above copyright   
+ *    notice, this list of conditions and the following disclaimer in the 
+ *    documentation and/or other materials provided with the   
+ *    distribution.
+ *
+ *    Neither the name of Texas Instruments Incorporated nor the names of
+ *    its contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ *  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ *  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+ *  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+ *  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ *  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ *  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ *  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ *  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *****************************************************************************/
+
+/*********************************************************************
+ * INCLUDES
+ */
+#include <string.h>
+
+#include <ti/sysbios/knl/Task.h>
+#include <ti/sysbios/knl/Clock.h>
+#include <ti/sysbios/knl/Semaphore.h>
+#include <ti/sysbios/knl/Queue.h>
+
+#include "hci_tl.h"
+#include "gatt.h"
+#include "gapgattserver.h"
+#include "gattservapp.h"
+#include "devinfoservice.h"
+#include "simpleGATTprofile.h"
+
+#include "multi.h"
+#include "gapbondmgr.h"
+
+#include "osal_snv.h"
+#include "ICallBleAPIMSG.h"
+
+#include "util.h"
+#include "board_lcd.h"
+#include "board_key.h"
+#include "Board.h"
+
+#include "linkdb.h"
+#include "multi_role.h"
+#include "simple_UART.h"
+
+#include <ti/drivers/lcd/LCDDogm1286.h>
+
+/*********************************************************************
+ * CONSTANTS
+ */
+// Advertising interval when device is discoverable (units of 625us, 160=100ms)
+#define DEFAULT_ADVERTISING_INTERVAL          160
+
+// Limited discoverable mode advertises for 30.72s, and then stops
+// General discoverable mode advertises indefinitely
+#define DEFAULT_DISCOVERABLE_MODE             GAP_ADTYPE_FLAGS_GENERAL
+
+// Connection parameters if automatic  parameter update request is enabled
+#define DEFAULT_DESIRED_MIN_CONN_INTERVAL     80
+#define DEFAULT_DESIRED_MAX_CONN_INTERVAL     800
+#define DEFAULT_DESIRED_SLAVE_LATENCY         0
+#define DEFAULT_DESIRED_CONN_TIMEOUT          1000
+
+// Whether to enable automatic parameter update request when a connection is
+// formed
+#define DEFAULT_ENABLE_UPDATE_REQUEST         FALSE
+
+// Connection Pause Peripheral time value (in seconds)
+#define DEFAULT_CONN_PAUSE_PERIPHERAL         6
+
+//connection parameters
+#define DEFAULT_CONN_INT                      42
+#define DEFAULT_CONN_TIMEOUT                  200
+#define DEFAULT_CONN_LATENCY                  0
+
+// Default service discovery timer delay in ms
+#define DEFAULT_SVC_DISCOVERY_DELAY           500
+
+// Scan parameters
+#define DEFAULT_SCAN_DURATION                 150
+
+// Maximum number of scan responses
+#define DEFAULT_MAX_SCAN_RES                  21
+
+// TRUE to filter discovery results on desired service UUID
+#define DEFAULT_DEV_DISC_BY_SVC_UUID          TRUE
+
+// Discovey mode (limited, general, all)
+#define DEFAULT_DISCOVERY_MODE                DEVDISC_MODE_ALL
+
+// TRUE to use active scan
+#define DEFAULT_DISCOVERY_ACTIVE_SCAN         FALSE
+
+// TRUE to use white list during discovery
+#define DEFAULT_DISCOVERY_WHITE_LIST          FALSE
+   
+// TRUE to use high scan duty cycle when creating link
+#define DEFAULT_LINK_HIGH_DUTY_CYCLE          FALSE
+
+// TRUE to use white list when creating link
+#define DEFAULT_LINK_WHITE_LIST               FALSE
+
+// Task configuration
+#define SBT_TASK_PRIORITY                     1
+
+#ifndef SBT_TASK_STACK_SIZE
+#define SBT_TASK_STACK_SIZE                   644
+#endif
+
+// Internal Events for RTOS application
+#define SBT_STATE_CHANGE_EVT                  0x0001
+#define SBT_CHAR_CHANGE_EVT                   0x0002
+#define SBT_CONN_EVT_END_EVT                  0x0004
+#define SBT_START_DISCOVERY_EVT               0x0008
+#define SBT_KEY_CHANGE_EVT                    0x0010
+#define SBT_ADV_CB_EVT						  0x0020
+
+// Discovery states
+enum
+{
+  BLE_DISC_STATE_IDLE,                // Idle
+  BLE_DISC_STATE_MTU,                 // Exchange ATT MTU size
+  BLE_DISC_STATE_SVC,                 // Service discovery
+  BLE_DISC_STATE_CHAR                 // Characteristic discovery
+};
+
+// LCD defines
+#define MAIN_MENU 0
+#define DEVICE_MENU 1
+
+#define CONNECTED_DEVICES 0
+#define DISCOVERED_DEVICES 1
+
+/*********************************************************************
+ * TYPEDEFS
+ */
+
+// App event passed from profiles.
+typedef struct
+{
+  uint16_t event;  // event type
+  uint8_t status; // event status
+  uint8_t *pData; // event data pointer
+} sbtEvt_t;
+
+/*********************************************************************
+ * LOCAL VARIABLES
+ */
+// structure to store link attributes 
+extern gapRoleInfo_t multiConnInfo[MAX_NUM_BLE_CONNS];
+
+/*********************************************************************
+ * LOCAL VARIABLES
+ */
+
+// Entity ID globally used to check for source and/or destination of messages
+static ICall_EntityID selfEntity;
+
+// Semaphore globally used to post events to the application thread
+static ICall_Semaphore sem;
+
+// Clock object used to signal discovery timeout
+static Clock_Struct startDiscClock;
+
+// Queue object used for app messages
+static Queue_Struct appMsg;
+static Queue_Handle appMsgQueue;
+
+// events flag for internal application events.
+static uint16_t events;
+
+// Task configuration
+Task_Struct sbmTask;
+Char sbmTaskStack[SBT_TASK_STACK_SIZE];
+
+// LCD menu variables
+uint8_t LCDmenu = MAIN_MENU;
+uint8_t selectKey = DISCOVERED_DEVICES;
+
+// GAP - SCAN RSP data (max size = 31 bytes)
+static uint8_t scanRspData[] =
+{
+  // complete name
+  0x04,   // length of this data
+  GAP_ADTYPE_LOCAL_NAME_COMPLETE,
+  '3', 'D', 'T', 'N',
+
+  // Tx power level
+  0x02,   // length of this data
+  GAP_ADTYPE_POWER_LEVEL,
+  0       // 0dBm
+};
+
+// GAP - Advertisement data (max size = 31 bytes, though this is
+// best kept short to conserve power while advertisting)
+static uint8_t advertData[] =
+{
+  // Flags; this sets the device to use limited discoverable
+  // mode (advertises for 30 seconds at a time) instead of general
+  // discoverable mode (advertises indefinitely)
+  0x10,   // length of this data
+  GAP_ADTYPE_FLAGS,
+  DEFAULT_DISCOVERABLE_MODE | GAP_ADTYPE_FLAGS_BREDR_NOT_SUPPORTED,
+  14, // Unique ID (From)
+  0, // 0 - 1-10, 1- Second 11-20
+  0, // 1-11 RSSI
+  0, // 2-12 RSSI
+  0, // 3-13 RSSI
+  0, // 4-14 RSSI
+  0, // 5-15 RSSI
+  0, // 6-16 RSSI
+  0, // 7-17 RSSI
+  0, // 8-18 RSSI
+  0, // 9-19 RSSI
+  0, // 10-20 RSSI
+  1, // Channel
+  26, // Identification byte
+};
+
+// Globals used for ATT Response retransmission
+static gattMsgEvent_t *pAttRsp = NULL;
+static uint8_t rspTxRetry = 0;
+
+// Scanning state
+//static bool scanningStarted = TRUE;
+uint8_t scanRes;
+
+// Number of devices rssi was captured from
+uint8_t devCount = 0;
+uint8_t offset = 0;
+uint8_t currChannel = 1;
+
+
+
+// Scan result list
+static uint8_t devList[DEFAULT_MAX_SCAN_RES];
+
+/*********************************************************************
+ * LOCAL FUNCTIONS
+ */
+static void simpleTopology_init( void );
+static void simpleTopology_taskFxn(UArg a0, UArg a1);
+static uint8_t simpleTopology_processStackMsg(ICall_Hdr *pMsg);
+static void simpleTopology_processAppMsg(sbtEvt_t *pMsg);
+static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent);
+static void simpleTopology_sendAttRsp(void);
+static void simpleTopology_freeAttRsp(uint8_t status);
+static uint8_t simpleTopology_enqueueMsg(uint16_t event, uint8_t status, uint8_t *pData);
+static void simpleTopology_addDeviceInfo(uint8_t devID, int8 rssi);
+static void simpleTopology_handleKeys(uint8_t shift, uint8_t keys);
+static uint8_t simpleTopology_eventCB(gapMultiRoleEvent_t *pEvent);
+static void simpleTopology_sendAttRsp(void);
+static void simpleTopology_freeAttRsp(uint8_t status);
+
+void simpleTopology_startDiscHandler(UArg a0);
+void simpleTopology_keyChangeHandler(uint8 keysPressed);
+
+/*********************************************************************
+ * PROFILE CALLBACKS
+ */
+
+// GAP Role Callbacks
+static gapRolesCBs_t simpleTopology_gapRoleCBs =
+{
+  simpleTopology_eventCB,        // events to be handled by the app are passed through the GAP Role here
+};
+
+/*********************************************************************
+ * PUBLIC FUNCTIONS
+ */
+
+/*********************************************************************
+ * @fn      simpleTopology_createTask
+ *
+ * @brief   Task creation function for the Simple BLE Peripheral.
+ *
+ * @param   None.
+ *
+ * @return  None.
+ */
+void SimpleTopology_createTask(void)
+{
+  Task_Params taskParams;
+
+  // Configure task
+  Task_Params_init(&taskParams);
+  taskParams.stack = sbmTaskStack;
+  taskParams.stackSize = SBT_TASK_STACK_SIZE;
+  taskParams.priority = SBT_TASK_PRIORITY;
+
+  Task_construct(&sbmTask, simpleTopology_taskFxn, &taskParams, NULL);
+}
+
+void changeChannel(void) {
+	// Do nothing
+}
+
+void changeOffset(uint8_t offs) {
+	// Do nothing
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_init
+ *
+ * @brief   Called during initialization and contains application
+ *          specific initialization (ie. hardware initialization/setup,
+ *          table initialization, power up notification, etc), and
+ *          profile initialization/setup.
+ *
+ * @param   None.
+ *
+ * @return  None.
+ */
+static void simpleTopology_init(void)
+{
+  // ******************************************************************
+  // N0 STACK API CALLS CAN OCCUR BEFORE THIS CALL TO ICall_registerApp
+  // ******************************************************************
+  // Register the current thread as an ICall dispatcher application
+  // so that the application can send and receive messages.
+  ICall_registerApp(&selfEntity, &sem);
+
+  // Create an RTOS queue for message from profile to be sent to app.
+  appMsgQueue = Util_constructQueue(&appMsg);
+
+  // Setup discovery delay as a one-shot timer
+  Util_constructClock(&startDiscClock, simpleTopology_startDiscHandler,
+                      DEFAULT_SVC_DISCOVERY_DELAY, 0, false, 0);
+  
+  //init keys and LCD
+  Board_initKeys(simpleTopology_keyChangeHandler);
+  Board_openLCD();
+  
+  // Setup the GAP Broadcaster Role Profile
+    {
+      // For all hardware platforms, device starts advertising upon initialization
+      uint8_t advertising_enable = TRUE;
+
+      // By setting this to zero, the device will go into the waiting state after
+      // being discoverable for 30.72 second, and will not being advertising again
+      // until the enabler is set back to TRUE
+      uint16_t gapRole_AdvertOffTime = 0;
+
+      uint8_t advType = GAP_ADTYPE_ADV_NONCONN_IND; // use scannable undirected adv
+      uint8_t advChan = GAP_ADVCHAN_37;
+
+      // Set the GAP Role Parameters
+      GAPRole_SetParameter(GAPROLE_ADVERT_ENABLED, sizeof(uint8_t),
+                                 &advertising_enable, NULL);
+      GAPRole_SetParameter(GAPROLE_ADVERT_OFF_TIME, sizeof(uint16_t),
+                           &gapRole_AdvertOffTime, NULL);
+
+      GAPRole_SetParameter(GAPROLE_SCAN_RSP_DATA, sizeof (scanRspData),
+                           scanRspData, NULL);
+      GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
+
+      GAPRole_SetParameter(GAPROLE_ADV_EVENT_TYPE, sizeof(uint8_t), &advType, NULL);
+      GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &advChan, NULL);
+    }
+
+    // Setup Observer Profile
+	{
+		uint8 scanRes = DEFAULT_MAX_SCAN_RES;
+		GAPRole_SetParameter(GAPROLE_MAX_SCAN_RES, sizeof(uint8_t),
+									 &scanRes, NULL);
+	}
+
+	// Set advertising interval
+	{
+		uint16_t advInt = DEFAULT_ADVERTISING_INTERVAL;
+
+		GAP_SetParamValue(TGAP_LIM_DISC_ADV_INT_MIN, advInt);
+		GAP_SetParamValue(TGAP_LIM_DISC_ADV_INT_MAX, advInt);
+		GAP_SetParamValue(TGAP_GEN_DISC_ADV_INT_MIN, advInt);
+		GAP_SetParamValue(TGAP_GEN_DISC_ADV_INT_MAX, advInt);
+	}
+
+	// Setup GAP - Observer
+	GAP_SetParamValue(TGAP_GEN_DISC_SCAN, DEFAULT_SCAN_DURATION);
+	GAP_SetParamValue(TGAP_LIM_DISC_SCAN, DEFAULT_SCAN_DURATION);
+
+	// Start the Device
+	VOID GAPRole_StartDevice(&simpleTopology_gapRoleCBs);
+
+	GAPRole_StartDiscovery(DEFAULT_DISCOVERY_MODE,
+							 DEFAULT_DISCOVERY_ACTIVE_SCAN,
+							 DEFAULT_DISCOVERY_WHITE_LIST);
+
+	// Callback for advertising completed to dynamically update
+	// broadcast data
+	HCI_EXT_AdvEventNoticeCmd(selfEntity, SBT_ADV_CB_EVT);
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_taskFxn
+ *
+ * @brief   Application task entry point for the Simple BLE Multi.
+ *
+ * @param   a0, a1 - not used.
+ *
+ * @return  None.
+ */
+static void simpleTopology_taskFxn(UArg a0, UArg a1)
+{
+  // Initialize application
+  simpleTopology_init();
+  uint8_t i;
+
+  // Application main loop
+  for (;;)
+  {
+    // Waits for a signal to the semaphore associated with the calling thread.
+    // Note that the semaphore associated with a thread is signaled when a
+    // message is queued to the message receive queue of the thread or when
+    // ICall_signal() function is called onto the semaphore.
+    ICall_Errno errno = ICall_wait(ICALL_TIMEOUT_FOREVER);
+
+    if (errno == ICALL_ERRNO_SUCCESS)
+    {
+      ICall_EntityID dest;
+      ICall_ServiceEnum src;
+      ICall_HciExtEvt *pMsg = NULL;
+
+      if (ICall_fetchServiceMsg(&src, &dest,
+                                (void **)&pMsg) == ICALL_ERRNO_SUCCESS)
+      {
+        uint8 safeToDealloc = TRUE;
+        
+        if ((src == ICALL_SERVICE_CLASS_BLE) && (dest == selfEntity))
+        {
+          ICall_Event *pEvt = (ICall_Event *)pMsg;
+          
+          // Check for BLE stack events first
+          if (pEvt->signature == 0xffff)
+          {
+            if (pEvt->event_flag & SBT_ADV_CB_EVT)
+            {
+				// Send observed data to base station
+				advertData[4] = devCount;
+				for(i = 5; i < 15; i++) {
+					advertData[i] = devList[(i-5) + offset];
+				}
+				advertData[15] = currChannel;
+
+				GAPRole_SetParameter(GAPROLE_ADVERT_DATA, sizeof(advertData), advertData, NULL);
+            }
+          }
+        else
+          {
+            // Process inter-task message
+            safeToDealloc = simpleTopology_processStackMsg((ICall_Hdr *)pMsg);
+          }
+        }
+
+        if (pMsg && safeToDealloc)
+        {
+          ICall_freeMsg(pMsg);
+        }
+      }
+
+      // If RTOS queue is not empty, process app message.
+      while (!Queue_empty(appMsgQueue))
+      {
+        sbtEvt_t *pMsg = (sbtEvt_t *)Util_dequeueMsg(appMsgQueue);
+        if (pMsg)
+        {
+          // Process message.
+          simpleTopology_processAppMsg(pMsg);
+
+          // Free the space from the message.
+          ICall_free(pMsg);
+        }
+      }
+    }
+  }
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_processStackMsg
+ *
+ * @brief   Process an incoming stack message.
+ *
+ * @param   pMsg - message to process
+ *
+ * @return  TRUE if safe to deallocate incoming message, FALSE otherwise.
+ */
+static uint8_t simpleTopology_processStackMsg(ICall_Hdr *pMsg)
+{
+  uint8_t safeToDealloc = TRUE;
+    
+  switch (pMsg->event)
+  {
+    case GATT_MSG_EVENT:
+      // Process GATT message
+      // safeToDealloc = simpleTopology_processGATTMsg((gattMsgEvent_t *)pMsg);
+      break;
+
+    case HCI_GAP_EVENT_EVENT:
+      {
+        // Process HCI message
+        switch(pMsg->status)
+        {
+          case HCI_COMMAND_COMPLETE_EVENT_CODE:
+            // Process HCI Command Complete Event
+            break;
+            
+          default:
+            break;
+        }
+      }
+      break;
+      
+    case GAP_MSG_EVENT:
+      simpleTopology_processRoleEvent((gapMultiRoleEvent_t *)pMsg);
+      break;        
+      
+    default:
+      // do nothing
+      break;
+  }
+  
+  return (safeToDealloc);
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_sendAttRsp
+ *
+ * @brief   Send a pending ATT response message.
+ *
+ * @param   none
+ *
+ * @return  none
+ */
+static void simpleTopology_sendAttRsp(void)
+{
+  // See if there's a pending ATT Response to be transmitted
+  if (pAttRsp != NULL)
+  {
+    uint8_t status;
+    
+    // Increment retransmission count
+    rspTxRetry++;
+    
+    // Try to retransmit ATT response till either we're successful or
+    // the ATT Client times out (after 30s) and drops the connection.
+    status = GATT_SendRsp(pAttRsp->connHandle, pAttRsp->method, &(pAttRsp->msg));
+    if ((status != blePending) && (status != MSG_BUFFER_NOT_AVAIL))
+    {
+      // Disable connection event end notice
+      HCI_EXT_ConnEventNoticeCmd(pAttRsp->connHandle, selfEntity, 0);
+      
+      // We're done with the response message
+      simpleTopology_freeAttRsp(status);
+    }
+    else
+    {
+      // Continue retrying
+      SU_printf("Rsp send retry: %d\n", rspTxRetry);
+    }
+  }
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_freeAttRsp
+ *
+ * @brief   Free ATT response message.
+ *
+ * @param   status - response transmit status
+ *
+ * @return  none
+ */
+static void simpleTopology_freeAttRsp(uint8_t status)
+{
+  // See if there's a pending ATT response message
+  if (pAttRsp != NULL)
+  {
+    // See if the response was sent out successfully
+    if (status == SUCCESS)
+    {
+      SU_printf("Rsp sent, retry: %d\n", rspTxRetry);
+    }
+    else
+    {
+      // Free response payload
+      GATT_bm_free(&pAttRsp->msg, pAttRsp->method);
+      
+      SU_printf("Rsp retry failed: %d\n", rspTxRetry);
+    }
+    
+    // Free response message
+    ICall_freeMsg(pAttRsp);
+    
+    // Reset our globals
+    pAttRsp = NULL;
+    rspTxRetry = 0;
+  }
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_processAppMsg
+ *
+ * @brief   Process an incoming callback from a profile.
+ *
+ * @param   pMsg - message to process
+ *
+ * @return  None.
+ */
+static void simpleTopology_processAppMsg(sbtEvt_t *pMsg)
+{
+  switch (pMsg->event)
+  {
+    case SBT_STATE_CHANGE_EVT:
+      simpleTopology_processStackMsg((ICall_Hdr *)pMsg->pData);
+      // Free the stack message
+      ICall_freeMsg(pMsg->pData);
+      break;
+
+    case SBT_CHAR_CHANGE_EVT:
+      // Not supported
+      break;
+
+    case SBT_KEY_CHANGE_EVT:
+      simpleTopology_handleKeys(0, pMsg->status);
+      break;
+      
+    default:
+      // Do nothing.
+      break;
+  }
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_eventCB
+ *
+ * @brief   Central event callback function.
+ *
+ * @param   pEvent - pointer to event structure
+ *
+ * @return  TRUE if safe to deallocate event message, FALSE otherwise.
+ */
+static uint8_t simpleTopology_eventCB(gapMultiRoleEvent_t *pEvent)
+{
+  // Forward the role event to the application
+  if (simpleTopology_enqueueMsg(SBT_STATE_CHANGE_EVT, SUCCESS, (uint8_t *)pEvent))
+  {
+    // App will process and free the event
+    return FALSE;
+  }
+  
+  // Caller should free the event
+  return TRUE;
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_processRoleEvent
+ *
+ * @brief   Multi role event processing function.
+ *
+ * @param   pEvent - pointer to event structure
+ *
+ * @return  none
+ */
+static void simpleTopology_processRoleEvent(gapMultiRoleEvent_t *pEvent)
+{
+  switch (pEvent->gap.opcode)
+  {
+    case GAP_DEVICE_INIT_DONE_EVENT:  
+      {
+        SU_printf("Address %s\n\r", Util_convertBdAddr2Str(pEvent->initDone.devAddr));
+        SU_printf("Initialized\n\r");
+
+        DevInfo_SetParameter(DEVINFO_SYSTEM_ID, DEVINFO_SYSTEM_ID_LEN, pEvent->initDone.devAddr);    
+      }
+      break;
+
+      case GAP_MAKE_DISCOVERABLE_DONE_EVENT:
+        {
+           SU_printf("Start of Advertising\n\r");
+        }
+      break;
+
+      case GAP_END_DISCOVERABLE_DONE_EVENT:
+        {
+           SU_printf("End of Advertising\n\r");
+        }
+      break;      
+      
+    case GAP_DEVICE_INFO_EVENT:
+      {
+        if(pEvent->deviceInfo.pEvtData[3] > 0 && pEvent->deviceInfo.pEvtData[16] == 26 &&
+        		currChannel == pEvent->deviceInfo.pEvtData[15]) {
+			  simpleTopology_addDeviceInfo(pEvent->deviceInfo.pEvtData[3]-1, pEvent->deviceInfo.rssi);
+//	          SU_printf("FROM: %d RSSI: %d\n\r",
+//	                      pEvent->deviceInfo.pEvtData[3],
+//	                      pEvent->deviceInfo.rssi);
+        } else if(pEvent->deviceInfo.pEvtData[3] == 0 && pEvent->deviceInfo.pEvtData[6] == 26) {
+        	  if(pEvent->deviceInfo.pEvtData[4] != currChannel) {
+//				  memset(sendDevList, 0, DEFAULT_MAX_SCAN_RES);
+				  memset(devList, 0, DEFAULT_MAX_SCAN_RES);
+				  GAPRole_SetParameter(GAPROLE_ADV_CHANNEL_MAP, sizeof(uint8_t), &pEvent->deviceInfo.pEvtData[4], NULL);
+				  GAPRole_GetParameter(GAPROLE_ADV_CHANNEL_MAP, &currChannel, NULL);
+//				  SU_printf("ADV channel changed\n\r");
+        	  }
+        	  devCount = pEvent->deviceInfo.pEvtData[5];
+        	  offset = devCount*10;
+        }
+      }
+      break;
+      
+    case GAP_DEVICE_DISCOVERY_EVENT:
+      {
+//		memcpy(sendDevList, devList, DEFAULT_MAX_SCAN_RES*sizeof(uint8_t));
+//		memset(devList, 0, DEFAULT_MAX_SCAN_RES);
+
+//        // discovery complete
+//        scanningStarted = FALSE;
+
+//		// Copy results
+//		scanRes = pEvent->discCmpl.numDevs;
+//        SU_printf("Devices Found %d\n\r", scanRes);
+
+        // Restart discovery
+		GAPRole_StartDiscovery(DEFAULT_DISCOVERY_MODE,
+								 DEFAULT_DISCOVERY_ACTIVE_SCAN,
+								 DEFAULT_DISCOVERY_WHITE_LIST);
+//		scanningStarted = TRUE;
+      }
+      break;
+
+    case GAP_LINK_ESTABLISHED_EVENT:
+      {
+    	  // Not supported
+      }
+      break;
+
+    case GAP_LINK_TERMINATED_EVENT:
+      {
+    	  // Not supported
+      }
+      break;
+
+    case GAP_LINK_PARAM_UPDATE_EVENT:
+      {
+    	  // Not supported
+      }
+      break;
+      
+    default:
+      break;
+  }
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_startDiscHandler
+ *
+ * @brief   Clock handler function
+ *
+ * @param   a0 - ignored
+ *
+ * @return  none
+ */
+void simpleTopology_startDiscHandler(UArg a0)
+{
+  events |= SBT_START_DISCOVERY_EVT;
+
+  // Wake up the application thread when it waits for clock event
+  Semaphore_post(sem);
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_enqueueMsg
+ *
+ * @brief   Creates a message and puts the message in RTOS queue.
+ *
+ * @param   event - message event.
+ * @param   state - message state.
+ *
+ * @return  None.
+ */
+static uint8_t simpleTopology_enqueueMsg(uint16_t event, uint8_t status, uint8_t *pData)
+{
+  sbtEvt_t *pMsg = ICall_malloc(sizeof(sbtEvt_t));
+
+  // Create dynamic pointer to message.
+  if (pMsg)
+  {
+    pMsg->event = event;
+    pMsg->status = status;
+    pMsg->pData = pData;
+
+    // Enqueue the message.
+    return Util_enqueueMsg(appMsgQueue, sem, (uint8*)pMsg);
+  }
+  
+  return FALSE;
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_keyChangeHandler
+ *
+ * @brief   Key event handler function
+ *
+ * @param   a0 - ignored
+ *
+ * @return  none
+ */
+void simpleTopology_keyChangeHandler(uint8 keys)
+{
+  simpleTopology_enqueueMsg(SBT_KEY_CHANGE_EVT, keys, NULL);
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_handleKeys
+ *
+ * @brief   Handles all key events for this device.
+ *
+ * @param   shift - true if in shift/alt.
+ * @param   keys - bit field for key events. Valid entries:
+ *                 HAL_KEY_SW_2
+ *                 HAL_KEY_SW_1
+ *
+ * @return  none
+ */
+static void simpleTopology_handleKeys(uint8_t shift, uint8_t keys)
+{
+  (void)shift;  // Intentionally unreferenced parameter
+  return;
+}
+
+/*********************************************************************
+ * @fn      simpleTopology_addDeviceInfo
+ *
+ * @brief   Add a device to the device discovery result list
+ *
+ * @return  none
+ */
+static void simpleTopology_addDeviceInfo(uint8_t devID, int8 rssi)
+{
+  // If result count not at max
+  if (devID < DEFAULT_MAX_SCAN_RES)
+  {
+    // Add rssi to list
+    devList[devID] = rssi + 128;
+  }
+}
+
+/*********************************************************************
+*********************************************************************/

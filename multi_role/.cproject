@@ -36,7 +36,7 @@
 							</option>
 							<option id="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION.457078040" name="Compiler version" superClass="com.ti.ccstudio.buildDefinitions.core.OPT_CODEGEN_VERSION" value="16.6.0.STS" valueType="string"/>
 							<targetPlatform id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.targetPlatformDebug.552080216" name="Platform" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.targetPlatformDebug"/>
-							<builder buildPath="${BuildDirectory}" id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.builderDebug.1352103880" keepEnvironmentInBuildfile="false" name="GNU Make" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.builderDebug"/>
+							<builder buildPath="${BuildDirectory}" id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.builderDebug.1352103880" keepEnvironmentInBuildfile="false" name="GNU Make" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.builderDebug"/>
 							<tool id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.compilerDebug.1975198906" name="ARM Compiler" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.exe.compilerDebug">
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.SILICON_VERSION.2136769024" name="Target processor version (--silicon_version, -mv)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.SILICON_VERSION" value="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.SILICON_VERSION.7M3" valueType="enumerated"/>
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.CODE_STATE.2138245815" name="Designate code state, 16-bit (thumb) or 32-bit (--code_state)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.CODE_STATE" value="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.CODE_STATE.16" valueType="enumerated"/>
@@ -110,7 +110,7 @@
 								<option id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.OTHER_FLAGS.493271863" name="Other flags" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.OTHER_FLAGS" valueType="stringList">
 									<listOptionValue builtIn="false" value=""/>
 								</option>
-								<option id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.PREINCLUDE.203947399" name="Specify a preinclude file (--preinclude)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.PREINCLUDE" valueType="stringList"/>
+								<option id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.PREINCLUDE.203947399" name="Specify a preinclude file (--preinclude)" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compilerID.PREINCLUDE"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compiler.inputType__C_SRCS.766380314" name="C Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compiler.inputType__C_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compiler.inputType__CPP_SRCS.1106263115" name="C++ Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compiler.inputType__CPP_SRCS"/>
 								<inputType id="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compiler.inputType__ASM_SRCS.1696125329" name="Assembly Sources" superClass="com.ti.ccstudio.buildDefinitions.TMS470_16.6.compiler.inputType__ASM_SRCS"/>
