@@ -14,9 +14,11 @@
   "author": "Harsh Pandya <hpand3@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "electron-debug": "^1.1.0",
     "serialport": "^4.0.7"
   },
   "devDependencies": {
+    "devtron": "^1.4.0",
     "electron-prebuilt": "^1.2.5",
     "electron-rebuild": "^1.5.7",
     "node-pre-gyp": "^0.6.33"

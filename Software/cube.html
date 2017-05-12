@@ -118,19 +118,23 @@
 	<script type="text/javascript" src="js/Backprojection.js"></script>
 	<script type="text/javascript" src="js/ImageFunctions.js"></script>
 	<script type="text/javascript" src="js/datatofeatures.js"></script>
-	<script type="text/javascript" src="js/randomforest.js"></script>
 	<script>
+	// Format [width, height, length]
+	// Corridor (0.965 x 0.95)
+	// Dim [0.965, 2.6, 0.95]
+	// Living room section 1 (2.8 x 1.2)
+	// Dim [1.2, 2.6, 2.8]
+	// Living room section 2 (l x w)
+	// Dim [ , , ]
 
 	// Dimensions of the room in meters
-	var lengthM = 0.95;
-	var widthM = 0.965;
+	var lengthM = 2.8;
+	var widthM = 1.2;
 	var heightM = 2.6;
-
-	// Format [width, height, length]
-	// Corridor
+	
 	var nodePos = nj.array([[0, 0.01, 0], 								// 1  //
 							[(widthM/2), 0.01, 0], 						// 2   /
-							[widthM, 0.01, 0],							// 3   / Side One
+							[widthM, 0.02, 0],							// 3   / Side One
 							[0, 1.1, 0], 								// 4   /
 							[(widthM/2), 1.1, 0],						// 5   /
 							[widthM, 1.1, 0], 							// 6  //
@@ -141,36 +145,6 @@
 							[(widthM/2), 0.01, lengthM],				// 11  /
 							[widthM, 0.01, lengthM], 					// 12 //
 							]); 	
-
-	// Site 2
-	// var nodePos = nj.array([[0, 0.02, 0], 								// 1  //
-	// 						[(widthM/2), 0.02, 0], 						// 2   /
-	// 						[widthM, 0.02, 0],							// 3   / Side One
-	// 						[0, 1.5, 0], 								// 4   /
-	// 						[(widthM/2), 1.5, 0],						// 5   /
-	// 						[widthM, 1.5, 0], 							// 6  //
-	// 						[0, 1.5, lengthM], 							// 7  //
-	// 						[(widthM/2), 1.5, lengthM], 				// 8   /
-	// 						[widthM, 1.5, lengthM],						// 9   / Side Two
-	// 						[0, 0.02, lengthM], 						// 10  /
-	// 						[(widthM/2), 0.02, lengthM],				// 11  /
-	// 						[widthM, 0.02, lengthM], 					// 12 //
-	// 						]); 	
-
-	// Site 3
-	// var nodePos = nj.array([[0, 0.02, 0], 								// 1  //
-	// 						[(widthM/2), 0.02, 0], 						// 2   /
-	// 						[widthM, 0.02, 0],							// 3   / Side One
-	// 						[0, 1.5, 0], 								// 4   /
-	// 						[(widthM/2), 1.5, 0],						// 5   /
-	// 						[widthM, 1.5, 0], 							// 6  //
-	// 						[0, 1.5, lengthM], 							// 7  //
-	// 						[(widthM/2), 1.5, lengthM], 				// 8   /
-	// 						[widthM, 1.5, lengthM],						// 9   / Side Two
-	// 						[0, 0.02, lengthM], 						// 10  /
-	// 						[(widthM/2), 0.02, lengthM],				// 11  /
-	// 						[widthM, 0.02, lengthM], 					// 12 //
-	// 						]); 	
 
 	var numNodes = nodePos.shape[0];
 								
@@ -216,7 +190,7 @@
 
 	function onData(data) {
 		// console.log(data);
-
+		// console.log("UART Data Recv");
 		var listRSS = data.split(',');
 
 		if(listRSS.length == 12 && allLinkCheck != -1) {
@@ -271,11 +245,15 @@
 
 	function initUSB() {
 		var sp = require('serialport');
+		var os = require('os');
 
 		sp.list(function(err, ports) {
 			ports.forEach(function(port) {
+				// console.log(port.pnpId)
+				// console.log(os.platform());
 				// Find the base station pnpid: "USB\VID_0451&PID_BEF3&MI_00\6&264DF45&0&0000"
-				if(port.pnpId == 'USB\\VID_0451&PID_BEF3&MI_00\\6&264DF45&0&0000') {
+				if((os.platform() == 'win32' && port.pnpId == 'USB\\VID_0451&PID_BEF3&MI_00\\6&264DF45&0&0000') || (os.platform() == 'linux' && port.pnpId == 'usb-Texas_Instruments_XDS110__02.03.00.02__with_CMSIS-DAP_L3002279-if00')) {
+					console.log(port.comName)
 					// Open port
 					currPort = new sp(port.comName, {
 						baudRate: 115200,
@@ -366,7 +344,7 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		// Setup backproj
-		//global.backProj = new Backprojection(getNodes());
+		global.backProj = new Backprojection(getNodes());
 
 		// Open data
 		//openSpace("standing1x1(2)/standing8")
@@ -383,9 +361,9 @@
 		// updateColor(wMat);
 
 		// Data to features Sleep = 0, Sit = 1, Stand = 2
-		readImages("sleeping1x1(2)", 0);
-		readImages("sitting1x1(2)", 1);
-		readImages("standing1x1(2)", 2);
+		// readImages("sleeping1x1(2)", 0);
+		// readImages("sitting1x1(2)", 1);
+		// readImages("standing1x1(2)", 2);
 		
 	}
 
@@ -433,7 +411,8 @@
 	function updateScans(scan_num, matrix) {
 		scans = scan_num.toString();
 		document.getElementById("scan_num").innerHTML = scans;
-		saveSpace(matrix, "scan" + scans)
+		// Save scan (full matrix)
+		saveSpace(matrix, "data/em2/scan" + scans)
 	}
 
 	function createRandData() {
@@ -484,12 +463,12 @@
 		if (min == 0) {
 			min = -1;
 		}
-		if (min > -20) {
-			min = -20;
-		}
+		// if (min > -20) {
+		// 	min = -20;
+		// }
 		console.log(min);
-		data = imthresh(data, 0.3);
-		console.log(imfeature(data));
+		// data = imthresh(data, 0.3);
+		// console.log(imfeature(data));
 		// Change color
 		for(i = 0; i < cubeGroup.children.length; i++) {
 			// Get cube position
