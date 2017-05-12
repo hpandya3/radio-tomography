@@ -103,46 +103,6 @@
 	    <td style="min-width:80px"><div id="12" class="box"></div></td>
 	    <td style="min-width:80px"><div id="p12" class="box"></div></td>
 	  </tr>
-	  <tr>
-	    <td>13</td>
-	    <td style="min-width:80px"><div id="13" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p13" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>14</td>
-	    <td style="min-width:80px"><div id="14" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p14" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>15</td>
-	    <td style="min-width:80px"><div id="15" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p15" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>16</td>
-	    <td style="min-width:80px"><div id="16" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p16" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>17</td>
-	    <td style="min-width:80px"><div id="17" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p17" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>18</td>
-	    <td style="min-width:80px"><div id="18" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p18" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>19</td>
-	    <td style="min-width:80px"><div id="19" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p19" class="box"></div></td>
-	  </tr>
-	  <tr>
-	    <td>20</td>
-	    <td style="min-width:80px"><div id="20" class="box"></div></td>
-	    <td style="min-width:80px"><div id="p20" class="box"></div></td>
-	  </tr>
 	</table>
 	<table style=”float:right; margin-left:10px;”>
 	  <tr>
@@ -156,6 +116,9 @@
 	<script type="text/javascript" src="js/VoxelTraversal.js"></script>
 	<script type="text/javascript" src="js/Link.js"></script>
 	<script type="text/javascript" src="js/Backprojection.js"></script>
+	<script type="text/javascript" src="js/ImageFunctions.js"></script>
+	<script type="text/javascript" src="js/datatofeatures.js"></script>
+	<script type="text/javascript" src="js/randomforest.js"></script>
 	<script>
 
 	// Dimensions of the room in meters
@@ -164,19 +127,51 @@
 	var heightM = 2.6;
 
 	// Format [width, height, length]
-	var nodePos = nj.array([[0, 0.02, 0], 								// 1  //
-							[(widthM/2), 0.02, 0], 						// 2   /
-							[widthM, 0.02, 0],							// 3   / Side One
-							[0, 1.5, 0], 								// 4   /
-							[(widthM/2), 1.5, 0],						// 5   /
-							[widthM, 1.5, 0], 							// 6  //
-							[0, 1.5, lengthM], 							// 7  //
-							[(widthM/2), 1.5, lengthM], 				// 8   /
-							[widthM, 1.5, lengthM],						// 9   / Side Two
-							[0, 0.02, lengthM], 						// 10  /
-							[(widthM/2), 0.02, lengthM],				// 11  /
-							[widthM, 0.02, lengthM], 					// 12 //
+	// Corridor
+	var nodePos = nj.array([[0, 0.01, 0], 								// 1  //
+							[(widthM/2), 0.01, 0], 						// 2   /
+							[widthM, 0.01, 0],							// 3   / Side One
+							[0, 1.1, 0], 								// 4   /
+							[(widthM/2), 1.1, 0],						// 5   /
+							[widthM, 1.1, 0], 							// 6  //
+							[0, 1.1, lengthM], 							// 7  //
+							[(widthM/2), 1.1, lengthM], 				// 8   /
+							[widthM, 1.1, lengthM],						// 9   / Side Two
+							[0, 0.01, lengthM], 						// 10  /
+							[(widthM/2), 0.01, lengthM],				// 11  /
+							[widthM, 0.01, lengthM], 					// 12 //
 							]); 	
+
+	// Site 2
+	// var nodePos = nj.array([[0, 0.02, 0], 								// 1  //
+	// 						[(widthM/2), 0.02, 0], 						// 2   /
+	// 						[widthM, 0.02, 0],							// 3   / Side One
+	// 						[0, 1.5, 0], 								// 4   /
+	// 						[(widthM/2), 1.5, 0],						// 5   /
+	// 						[widthM, 1.5, 0], 							// 6  //
+	// 						[0, 1.5, lengthM], 							// 7  //
+	// 						[(widthM/2), 1.5, lengthM], 				// 8   /
+	// 						[widthM, 1.5, lengthM],						// 9   / Side Two
+	// 						[0, 0.02, lengthM], 						// 10  /
+	// 						[(widthM/2), 0.02, lengthM],				// 11  /
+	// 						[widthM, 0.02, lengthM], 					// 12 //
+	// 						]); 	
+
+	// Site 3
+	// var nodePos = nj.array([[0, 0.02, 0], 								// 1  //
+	// 						[(widthM/2), 0.02, 0], 						// 2   /
+	// 						[widthM, 0.02, 0],							// 3   / Side One
+	// 						[0, 1.5, 0], 								// 4   /
+	// 						[(widthM/2), 1.5, 0],						// 5   /
+	// 						[widthM, 1.5, 0], 							// 6  //
+	// 						[0, 1.5, lengthM], 							// 7  //
+	// 						[(widthM/2), 1.5, lengthM], 				// 8   /
+	// 						[widthM, 1.5, lengthM],						// 9   / Side Two
+	// 						[0, 0.02, lengthM], 						// 10  /
+	// 						[(widthM/2), 0.02, lengthM],				// 11  /
+	// 						[widthM, 0.02, lengthM], 					// 12 //
+	// 						]); 	
+
 	var numNodes = nodePos.shape[0];
 								
 	// Ratio
@@ -371,8 +366,11 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		// Setup backproj
-		global.backProj = new Backprojection(getNodes());
+		//global.backProj = new Backprojection(getNodes());
 
+		// Open data
+		//openSpace("standing1x1(2)/standing8")
+		
 		// Test Save
 		// randomData = createRandData();
 		// updateColor(randomData);
@@ -383,6 +381,12 @@
 		// var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[2], .25);
 		// var wMat = voxelTrav.voxelSet;
 		// updateColor(wMat);
+
+		// Data to features Sleep = 0, Sit = 1, Stand = 2
+		readImages("sleeping1x1(2)", 0);
+		readImages("sitting1x1(2)", 1);
+		readImages("standing1x1(2)", 2);
+		
 	}
 
 	function onWindowResize() {
@@ -429,7 +433,7 @@
 	function updateScans(scan_num, matrix) {
 		scans = scan_num.toString();
 		document.getElementById("scan_num").innerHTML = scans;
-		// saveSpace(matrix, "standing" + scans)
+		saveSpace(matrix, "scan" + scans)
 	}
 
 	function createRandData() {
@@ -472,52 +476,10 @@
 		return opacity;
 	}
 
-	function clearVerticalBorder(data) {
-		for(posx = 1; posx <= dim["x"]; posx++) {
-			for(posy = 1; posy <= dim["y"]; posy++) {
-				for(posz = 1; posz <= dim["z"]; posz++) {
-					if(posx == 1 || posx == dim["x"] || posz == 1 || 
-						posz == dim["z"]) {
-						data.set(posx-1, posy-1, posz-1, 0);
-					}
-				}
-			}
-		}
-		return data;
-	}
-
-	// Save the frame
-	function saveSpace(data, filename) {
-		dataArr = data.tolist();
-		require('fs').writeFile(
-		    './' + filename + '.json',
-
-		    JSON.stringify(dataArr),
-
-		    function (err) {
-		        if (err) {
-		            console.error('Space write error!');
-		        }
-		    }
-		);
-	}
-
-	// Open a frame
-	function openSpace(filename) {
-		fs = require('fs');
-		filenameStr = './' + filename + '.json';
-		fs.readFile(filenameStr, function read(err, data) {
-		    if (err) {
-		        throw err;
-		    }
-		    dataArr = JSON.parse(data);
-		    content = nj.array(dataArr);
-		    updateColor(content);   // Update the visual
-		});
-	}
-
 	function updateColor(data) {
-		// Max value
+		data = clearVerticalBorder(data);
+
+		// Min value
 		var min = data.min(); 
 		if (min == 0) {
 			min = -1;
@@ -526,6 +488,8 @@
 			min = -20;
 		}
 		console.log(min);
+		data = imthresh(data, 0.3);
+		console.log(imfeature(data));
 		// Change color
 		for(i = 0; i < cubeGroup.children.length; i++) {
 			// Get cube position
