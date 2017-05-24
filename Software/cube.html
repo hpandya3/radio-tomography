@@ -110,6 +110,13 @@
 	    <td style="min-width:80px"><p id="scan_num">0</p></td>
 	  </tr>
 	</table>
+	<div style="position:absolute; bottom:0; width:100%">
+		<table style="margin-bottom:10px; width:100%">
+		  <tr>
+		  	<td><p id="posture" style="font-size:50px; text-align:center;">Not Occupied</p></center></td>
+		  </tr>
+		</table>
+	</div>
 	<script type="text/javascript" src="js/three.js"></script>
 	<script type="text/javascript" src="js/OrbitControls.js"></script>
 	<script type="text/javascript" src="js/numjs.min.js"></script>
@@ -118,19 +125,28 @@
 	<script type="text/javascript" src="js/Backprojection.js"></script>
 	<script type="text/javascript" src="js/ImageFunctions.js"></script>
 	<script type="text/javascript" src="js/datatofeatures.js"></script>
+	<script type="text/javascript" src="js/ml.js"></script>
 	<script>
 	// Format [width, height, length]
-	// Corridor (0.965 x 0.95)
+	// 1) Corridor (0.965 x 0.95)
 	// Dim [0.965, 2.6, 0.95]
-	// Living room section 1 (2.8 x 1.2)
+	// 2) Living room section 1 (2.8 x 1.2)
 	// Dim [1.2, 2.6, 2.8]
-	// Living room section 2 (l x w)
-	// Dim [ , , ]
+	// 3) Bathroom (1.73 x 1.16)
+	// Dim [1.16, 2.6, 1.73]
 
-	// Dimensions of the room in meters
+	// 1
+	// var lengthM = 0.95;
+	// var widthM = 0.965;
+	// var heightM = 2.6;
+	// 2
 	var lengthM = 2.8;
 	var widthM = 1.2;
 	var heightM = 2.6;
+	// 3
+	// var lengthM = 1.73;
+	// var widthM = 1.16;
+	// var heightM = 2.6;
 	
 	var nodePos = nj.array([[0, 0.01, 0], 								// 1  //
 							[(widthM/2), 0.01, 0], 						// 2   /
@@ -225,6 +241,9 @@
 				console.timeEnd('scan');
 				console.time('scan');
 				updateScans(global.scans, wMat);
+
+				// Predict
+				updatePrediction(wMat);
 			}			
 		}
 	}
@@ -281,7 +300,7 @@
 		controls.rotateSpeed = 1.0;
 		controls.zoomSpeed = 1.2;
 		controls.panSpeed = 0.8;
-		controls.target.set(dim["x"]/2, dim["y"]/2, dim["z"]/2);
+		controls.target.set(dim["x"]/2, dim["y"]/2 - 5, dim["z"]/2);
 
 
 
@@ -336,35 +355,46 @@
 		scene.add(wireGroup);
 
 		// Set camera position
-		camera.position.x = dim["x"]*1.5;
-		camera.position.y = dim["y"]*1.5;
-		camera.position.z = dim["z"]*1.5;
+		camera.position.x = dim["x"]*1.6;
+		camera.position.y = dim["y"]*1.6;
+		camera.position.z = dim["z"]*1.6;
 		
 		// Setup listener
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		// Setup backproj
+		// Setup and start 3D radio tomography
 		global.backProj = new Backprojection(getNodes());
 
 		// Open data
-		//openSpace("standing1x1(2)/standing8")
+		// openSpace("data/em1/scan9")
 		
 		// Test Save
 		// randomData = createRandData();
 		// updateColor(randomData);
 		// saveSpace(randomData, "frame1");
 		// openSpace("standing6");
+
 		// Test VoxelTraversal
 		// var nodesArray = getNodes().tolist();
 		// var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[2], .25);
 		// var wMat = voxelTrav.voxelSet;
 		// updateColor(wMat);
 
-		// Data to features Sleep = 0, Sit = 1, Stand = 2
-		// readImages("sleeping1x1(2)", 0);
-		// readImages("sitting1x1(2)", 1);
-		// readImages("standing1x1(2)", 2);
-		
+		// Data to features ( Empty = 0, Sleep = 1, Sit = 2, Stand = 3 )
+		// readImages("data/em1", 0);
+		// readImages("data/sl1", 1);
+		// readImages("data/si1", 2);
+		// readImages("data/st1", 3);
+
+		// readImages("data/em2", 0);
+		// readImages("data/sl2", 1);
+		// readImages("data/si2", 2);
+		// readImages("data/st2", 3);
+
+		// readImages("data/em3", 0);
+		// readImages("data/sl3", 1);
+		// readImages("data/si3", 2);
+		// readImages("data/st3", 3);
 	}
 
 	function onWindowResize() {
@@ -390,7 +420,7 @@
 
 	function updateNodeStatus(nodeStatus) {
 		for(var key in nodeStatus) {
-			percent = 80*(nodeStatus[key]/20);
+			percent = 80*(nodeStatus[key]/12);
 			percentPixels = percent.toString() + 'px';
 			document.getElementById(key).style.width = percentPixels;
 		}
@@ -412,7 +442,24 @@
 		scans = scan_num.toString();
 		document.getElementById("scan_num").innerHTML = scans;
 		// Save scan (full matrix)
-		saveSpace(matrix, "data/em2/scan" + scans)
+		//saveSpace(matrix, "data/em3/scan" + scans) 
+	}
+
+	function updatePrediction(image) {
+		cropped_image = clearVerticalBorder(image, 2);
+		var prediction = predictPosture(cropped_image);
+		console.log(prediction);
+		var output = '';
+		if (prediction == 0) {
+			output = "Not Occupied"
+		} else if (prediction == 1) {
+			output = "Sleeping"
+		} else if (prediction == 2) {
+			output = "Sitting"
+		} else if (prediction == 3) {
+			output = "Standing"
+		}
+		document.getElementById("posture").innerHTML = output;
 	}
 
 	function createRandData() {
@@ -456,15 +503,15 @@
 	}
 
 	function updateColor(data) {
-		data = clearVerticalBorder(data);
+		data = clearVerticalBorder(data, 1);
 
 		// Min value
 		var min = data.min(); 
 		if (min == 0) {
 			min = -1;
 		}
-		// if (min > -20) {
-		// 	min = -20;
+		// if (min > -5) {
+		// 	min = -5;
 		// }
 		console.log(min);
 		// data = imthresh(data, 0.3);

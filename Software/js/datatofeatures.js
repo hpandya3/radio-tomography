@@ -6,33 +6,34 @@ function readImages(dirname, posture) {
   // Create an array to store all the features
   numFiles = filenames.length;
   var features = new Array(numFiles);
-
+  var clearFile = false;
+  var offset = 0;
   var img = 0;
   for (img = 0; img < numFiles; img++) {
     var content = fs.readFileSync(dirname + '/' + filenames[img], "utf8");
+    
+    if (filenames[img] != 'all.json') {
+      // Read Images
+      dataArr = JSON.parse(content);
+      image = nj.array(dataArr);
+      cropped_image = clearVerticalBorder(image, 2);
 
-    // Read Images
-    dataArr = JSON.parse(content);
-    image = nj.array(dataArr);
-
-    // Extract features
-    t_image = imthresh(image, 0.3);
-    features[img] = imfeature(t_image, posture).slice(0);
+      // Extract features
+      //t_image = imthresh(cropped_image, 0.2);
+      features[img-offset] = imfeaturetrain(cropped_image, posture).slice(0);
+    } else {
+      features = features.splice(img, 1);
+      offset = 1;
+      clearFile = true;
+    }
   }
 
   console.log(features);
 
-  // Write the features to a single file
-  fs.writeFile(dirname + '/' + dirname + '_all' + '.json',
-      JSON.stringify(features),
-      function (err) {
-          if (err) {
-              console.error('Space write error!');
-          }
-      }
-  );
-}
+  if (clearFile) {
+    fs.unlinkSync(dirname + '/' + 'all.json');
+  }
 
-function getFeatures(dirnames) {
-  
+  // Write the features to a single file
+  fs.writeFileSync(dirname + '/' + 'all.json', JSON.stringify(features), {encoding: "utf8"});
 }

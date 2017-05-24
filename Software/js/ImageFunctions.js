@@ -3,6 +3,9 @@ function imthresh(image, threshold) {
 	h = image.shape[1];
 	l = image.shape[2];
 	min = image.min();
+	if (min == 0) {
+		min = -1;
+	}
 	var i, j, k;
 	for(i = 0; i < h; i++) {
 		for(j = 0; j < w; j++) {
@@ -20,12 +23,12 @@ function imthresh(image, threshold) {
 	return image;
 }
 
-function clearVerticalBorder(data) {
+function clearVerticalBorder(data, len) {
 		for(posx = 1; posx <= dim["x"]; posx++) {
 			for(posy = 1; posy <= dim["y"]; posy++) {
 				for(posz = 1; posz <= dim["z"]; posz++) {
-					if(posx == 1 || posx == dim["x"] || posz == 1 || 
-						posz == dim["z"]) {
+					if(posx <= len || posx >= (dim["x"] - len + 1) || posz <= len || 
+						posz >= (dim["z"] - len + 1)) {
 						data.set(posx-1, posy-1, posz-1, 0);
 					}
 				}
@@ -64,21 +67,47 @@ function openSpace(filename) {
 	});
 }
 
-function imfeature(thresholded_image, posture) {
-	w = thresholded_image.shape[0];
-	h = thresholded_image.shape[1];
-	l = thresholded_image.shape[2];
-	features = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, w, l, posture];
+function imfeaturetrain(image, posture) {
+	w = image.shape[0];
+	h = image.shape[1];
+	l = image.shape[2];
+	// features = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, w, l, posture];
+	features = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, posture];
 	var i, j, k;
-	for(i = 0; i < 13; i++) {
-		for(j = 0; j < w; j++) {
-			for(k = 0; k < l; k++) {
-				var val = thresholded_image.get(j, i, k)
-				if (val == 1) {
-					features[i] += 1;
-				}
+	for(i = 0; i < 12; i++) { // Height
+		// Sum each slice at level Z
+		for(j = 0; j < w; j++) { // Width
+			for(k = 0; k < l; k++) { // Length
+				var val = image.get(j, i, k);
+				features[i] += val;
 			}
 		}
 	}
 	return features;
+}
+
+function imfeature(image) {
+	w = image.shape[0];
+	h = image.shape[1];
+	l = image.shape[2];
+	// features = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, w, l];
+	features = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	var i, j, k;
+	for(i = 0; i < 12; i++) { // Height
+		// Sum at Z
+		for(j = 0; j < w; j++) { // Width
+			for(k = 0; k < l; k++) { // Length
+				var val = image.get(j, i, k);
+				features[i] += val;
+			}
+		}
+	}
+	return features;
+}
+
+function predictPosture(image) {
+	var features = imfeature(image);
+	var clf = new Brain();
+	var prediction = clf.predict(features);
+	return prediction;
 }
