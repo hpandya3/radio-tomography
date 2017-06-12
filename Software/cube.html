@@ -140,7 +140,7 @@
 	// var widthM = 0.965;
 	// var heightM = 2.6;
 	// 2
-	var lengthM = 2.8;
+	var lengthM = 1.73;
 	var widthM = 1.2;
 	var heightM = 2.6;
 	// 3
@@ -363,7 +363,7 @@
 		window.addEventListener( 'resize', onWindowResize, false );
 
 		// Setup and start 3D radio tomography
-		global.backProj = new Backprojection(getNodes());
+		// global.backProj = new Backprojection(getNodes());
 
 		// Open data
 		// openSpace("data/em1/scan9")
@@ -376,7 +376,7 @@
 
 		// Test VoxelTraversal
 		// var nodesArray = getNodes().tolist();
-		// var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[2], .25);
+		// var voxelTrav = new VoxelTraversal(nodesArray[0], nodesArray[8], .25);
 		// var wMat = voxelTrav.voxelSet;
 		// updateColor(wMat);
 
@@ -503,7 +503,7 @@
 	}
 
 	function updateColor(data) {
-		data = clearVerticalBorder(data, 1);
+		data = clearVerticalBorder(data, 0);
 
 		// Min value
 		var min = data.min(); 
